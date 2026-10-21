@@ -59,7 +59,7 @@ function arrange(mode){
   });
 }
 export default function ModelArchitecture(){
-  const canvasRef=useRef(null),sceneRef=useRef(null),selectedRef=useRef(selected),viewRef=useRef(null);
+  const canvasRef=useRef(null),sceneRef=useRef(null),selectedRef=useRef(null),viewRef=useRef(null);
   const [mode,setMode]=useState("layers"),[relation,setRelation]=useState("all"),[selected,setSelected]=useState("l1"),[search,setSearch]=useState(""),[labels,setLabels]=useState(true),[zoom,setZoom]=useState(1),[full,setFull]=useState(false),[tab,setTab]=useState("map"),[autoRotate,setAutoRotate]=useState(false),[viewMode,setViewMode]=useState("map"),[showDetails,setShowDetails]=useState(true),[showExplanations,setShowExplanations]=useState(true);
   const visible=useMemo(()=>{const q=search.trim().toLowerCase();return arrange(mode).filter(n=>!q||[n.title,n.label,n.cat,n.desc,...n.items].join(" ").toLowerCase().includes(q));},[mode,search]);
   const ids=useMemo(()=>new Set(visible.map(n=>n.id)),[visible]);
