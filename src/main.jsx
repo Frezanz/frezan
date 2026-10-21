@@ -77,7 +77,6 @@ function App() {
           <span className="brandCore">F</span><span>FREZANZ</span>
         </button>
         <div className="headerTools">
-          <button className="hudButton" onClick={() => openPanel("settings")} aria-label="Settings"><span className="gear">⚙</span><span>SETTINGS</span></button>
           <button className={`hudButton menuTrigger ${panel === "menu" ? "active" : ""}`} onClick={() => panel === "menu" ? close() : openPanel("menu")} aria-label="Menu"><span>MENU</span><i /><i /><i /></button>
         </div>
       </header>
