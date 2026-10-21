@@ -108,3 +108,11 @@ a{text-decoration:none}
   .settingsList>div{align-items:flex-start}.volumeRow{flex-direction:column}.volumeRow label{min-width:100%;width:100%}
 }
 @media(prefers-reduced-motion:reduce){.scan,.crosshair,.ringA,.ringB{animation:none}}
+
+/* More navigation + Model Architecture screen */
+.systemNav .moreNavCard{grid-column:1/-1;min-height:105px;background:linear-gradient(100deg,rgba(10,40,49,.85),rgba(5,21,29,.7))}
+.moreIntro{padding:22px 0 8px}.moreIntro>span{font:9px "DM Mono",monospace;letter-spacing:.18em;color:#4e9aa8}.moreIntro h2{font-size:clamp(28px,5vw,44px);letter-spacing:-.05em;margin:10px 0}.moreIntro p{font-size:12px;line-height:1.7;color:#82aab4;max-width:620px}
+.moreNavList{display:grid;margin:20px 0}.moreNavList button{display:grid;grid-template-columns:44px 1fr 26px;gap:14px;align-items:center;text-align:left;padding:20px 14px;border:1px solid rgba(76,213,240,.18);background:rgba(7,29,37,.62)}.moreNavList button:hover{background:rgba(14,52,63,.8);border-color:rgba(76,213,240,.5)}.moreNumber{font:10px "DM Mono",monospace;color:#4e9aa8}.moreNavList strong{display:block;font-size:13px;letter-spacing:.07em}.moreNavList small{display:block;font:10px "DM Mono",monospace;color:#5e909b;margin-top:7px;line-height:1.5}.moreNavList em{font-size:20px;font-style:normal;color:#69e3fa}
+.interfacePanel.architecturePanel{width:min(1500px,96vw);max-height:92vh;padding:22px;overflow:auto}
+.architecturePanel .closeInterface{position:sticky;bottom:0;padding:11px 0 2px;background:linear-gradient(transparent,rgba(2,13,18,.97) 28%);z-index:3}
+@media(max-width:700px){.systemNav .moreNavCard{grid-column:auto;min-height:120px}.interfacePanel.architecturePanel{width:98vw;padding:12px;max-height:95vh}}
