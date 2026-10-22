@@ -91,7 +91,9 @@ function App() {
         <div className="telemetry telemetryRight"><span>SPACE / 04D</span><b>000.001</b><i /></div>
       </section>
 
-      {panel && (
+      {panel === "modelArchitecture" && <div className="architectureScreen"><button className="architectureExit" onClick={close}>← BACK TO FREZANZ</button><ModelArchitecture /></div>}
+
+      {panel && panel !== "modelArchitecture" && (
         <div className="interfaceLayer" onClick={close}>
           <div className={`interfacePanel ${panel === "modelArchitecture" ? "architecturePanel" : ""}`} onClick={e => e.stopPropagation()}>
             {panel === "menu" && (
