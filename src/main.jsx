@@ -91,7 +91,7 @@ function App() {
         <div className="telemetry telemetryRight"><span>SPACE / 04D</span><b>000.001</b><i /></div>
       </section>
 
-      {panel === "modelArchitecture" && <div className="architectureScreen"><button className="architectureExit" onClick={close}>← BACK TO FREZANZ</button><ModelArchitecture /></div>}
+      {panel === "modelArchitecture" && <div className="architectureScreen"><button className="architectureExit" onClick={close} aria-label="Exit Model Architecture and return to Frezanz"><span aria-hidden="true">←</span><span>BACK TO FREZANZ</span></button><ModelArchitecture /></div>}
 
       {panel && panel !== "modelArchitecture" && (
         <div className="interfaceLayer" onClick={close}>
