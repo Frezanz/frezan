@@ -86,7 +86,6 @@ function App() {
           <span className="lineH" /><span className="lineV" /><span className="ring ringA" /><span className="ring ringB" />
           <span className="tick t1" /><span className="tick t2" /><span className="tick t3" /><span className="tick t4" /><div className="core">F</div>
         </div>
-        <div className="homeSignal"><span className="micro">PERSONAL INTERFACE / ONLINE</span><span className="sub">THINK · BUILD · EXPLORE</span></div>
         <div className="telemetry telemetryLeft"><span>SYS / 001</span><b>ACTIVE</b><i /></div>
         <div className="telemetry telemetryRight"><span>SPACE / 04D</span><b>000.001</b><i /></div>
       </section>
