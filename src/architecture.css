@@ -33,3 +33,11 @@
 .archInspectorActions button[aria-label="Drag panel or tap to close"]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none}
 .arch3dLabel{-webkit-user-select:none;user-select:none;pointer-events:none}
 .archInspectorActions button[aria-label="Drag panel or tap to close"]{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* Spatial canvas first: every header and toolbar control lives in one collapsible drawer. */
+.archFullscreenWorkspace{position:relative;gap:0!important;overflow:hidden}
+.archControlsToggle{position:absolute;z-index:20;top:8px;right:8px;padding:9px 11px!important;background:rgba(2,15,21,.94)!important;border:1px solid rgba(93,220,241,.5)!important;border-radius:5px;color:#a9edf8!important;font:9px "DM Mono",monospace!important;letter-spacing:.08em;box-shadow:0 4px 18px #0008}
+.archFullscreenWorkspace>.archTopbar,.archFullscreenWorkspace>.archToolbar{flex-shrink:0}
+.archFullscreenWorkspace>.archWorkspace{flex:1 1 0;min-height:0;width:100%;}
+.archFullscreenWorkspace:not(:has(>.archTopbar))>.archWorkspace{margin-top:0}
+.archFullscreenWorkspace:has(>.archTopbar)>.archWorkspace{margin-top:8px}
+@media(max-width:700px){.archControlsToggle{top:7px;right:7px;padding:8px 9px!important;font-size:8px!important}.archFullscreenWorkspace:has(>.archTopbar)>.archWorkspace{margin-top:5px}}
