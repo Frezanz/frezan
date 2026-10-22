@@ -93,7 +93,7 @@ function App() {
 
       {panel && (
         <div className="interfaceLayer" onClick={close}>
-          <div className="interfacePanel" onClick={e => e.stopPropagation()}>
+          <div className={`interfacePanel ${panel === "modelArchitecture" ? "architecturePanel" : ""}`} onClick={e => e.stopPropagation()}>
             {panel === "menu" && (
               <>
                 <div className="panelHeader"><span>NAVIGATION</span><b>FREZANZ / SYSTEM</b></div>
