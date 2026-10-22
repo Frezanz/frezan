@@ -64,3 +64,8 @@
 .archHeaderActions .architectureExit{border:1px solid rgba(83,215,241,.4)!important;background:rgba(2,14,20,.96)!important;color:#a9edf8!important;font-family:"DM Mono",monospace!important}
 .archControlsRow{display:none!important}
 @media(max-width:700px){.archFullscreenWorkspace>.archTopbar{gap:6px;padding:4px 2px 6px}.archIdentity h1{font-size:22px!important;letter-spacing:-.05em}.archIdentity p{font-size:9px;max-width:100%}.archHeaderActions{gap:5px}.archHeaderActions .archControlsToggle,.archHeaderActions .architectureExit{font-size:7px!important;padding:7px 6px!important;letter-spacing:0}.archToolbar{margin-top:0}}
+/* The Back to Frezanz button is owned by the parent screen; never duplicate it here. */
+.archFullscreenWorkspace>.archTopbar.archTopbar--minimal{position:static;display:block;min-height:0;height:0;flex:0 0 0;padding:0;margin:0;overflow:visible;border:0}
+.archTopbar--minimal .archControlsToggle{position:fixed!important;z-index:121;top:10px;right:174px;white-space:nowrap;padding:9px 10px!important;font-size:8px!important}
+.archFullscreenWorkspace>.archWorkspace{margin-top:0!important}
+@media(max-width:700px){.archTopbar--minimal .archControlsToggle{top:7px;right:158px;padding:7px 6px!important;font-size:7px!important;letter-spacing:0}}
