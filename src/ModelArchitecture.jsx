@@ -39,7 +39,7 @@ function makeNodeMaterial(selected=false,group=""){
 export default function ModelArchitecture(){
   const hostRef=useRef(null),sceneRef=useRef(null),nodesRef=useRef(new Map()),rootRef=useRef(null),controlsRef=useRef(null),selectedRef=useRef(null);
   const [selected,setSelected]=useState(null),[tab,setTab]=useState("Overview"),[relation,setRelation]=useState("all"),[query,setQuery]=useState(""),[view,setView]=useState("map"),[showLabels,setShowLabels]=useState(true);
-  const [notice,setNotice]=useState("");
+  const [notice,setNotice]=useState("");\n  const relationRef=useRef(relation), visibleIdsRef=useRef(visibleIds);\n  useEffect(()=>{relationRef.current=relation;visibleIdsRef.current=visibleIds;},[relation,visibleIds]);
   const activeNode= NODES.find(n=>n.id===selected)||null;
   const filteredNodes=useMemo(()=>NODES.filter(n=>!query||[n.label,n.desc,n.group,...n.details].join(" ").toLowerCase().includes(query.toLowerCase())),[query]);
   const visibleIds=useMemo(()=>new Set(filteredNodes.map(n=>n.id)),[filteredNodes]);
@@ -67,7 +67,7 @@ export default function ModelArchitecture(){
     const onUp=e=>{if(!down||down.id!==e.pointerId)return;dragged=Math.hypot(e.clientX-down.x,e.clientY-down.y)>5;down=null;if(dragged)return;const rect=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rect.left)/rect.width)*2-1;pointer.y=-((e.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects([...nodeMap.values()].map(n=>n.mesh),false);if(hits.length){const id=hits[0].object.userData.nodeId;setSelected(id);selectedRef.current=id;setTab("Overview");}else{setSelected(null);selectedRef.current=null;}};
     renderer.domElement.addEventListener("pointerdown",onDown);renderer.domElement.addEventListener("pointerup",onUp);
     const resize=()=>{const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);};const observer=new ResizeObserver(resize);observer.observe(host);resize();
-    let frame;const animate=()=>{frame=requestAnimationFrame(animate);controls.update();const active=selectedRef.current;nodeMap.forEach((v,id)=>{v.mesh.material.dispose?.();v.mesh.material=makeNodeMaterial(id===active,v.data.group);v.halo.scale.setScalar(id===active?1.45:1);});lineObjects.forEach(({line,edge})=>{line.visible=(relation==="all"||relation===edge.type)&&visibleIds.has(edge.source)&&visibleIds.has(edge.target);});renderer.render(scene,camera);};animate();
+    let frame;const animate=()=>{frame=requestAnimationFrame(animate);controls.update();lineObjects.forEach(({line,edge})=>{line.visible=(relationRef.current==="all"||relationRef.current===edge.type)&&visibleIdsRef.current.has(edge.source)&&visibleIdsRef.current.has(edge.target);});renderer.render(scene,camera);};animate();
     nodesRef.current=nodeMap;
     return()=>{cancelAnimationFrame(frame);observer.disconnect();renderer.domElement.removeEventListener("pointerdown",onDown);renderer.domElement.removeEventListener("pointerup",onUp);controls.dispose();renderer.dispose();host.removeChild(renderer.domElement);nodeMap.forEach(v=>{v.mesh.geometry.dispose();v.mesh.material.dispose();});lineObjects.forEach(({line})=>{line.geometry?.dispose?.();line.material?.dispose?.();});root.clear();};
   },[]);
