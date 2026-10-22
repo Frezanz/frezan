@@ -90,7 +90,7 @@ function App() {
         <div className="telemetry telemetryRight"><span>SPACE / 04D</span><b>000.001</b><i /></div>
       </section>
 
-      {panel === "modelArchitecture" && <div className="architectureScreen"><button className="architectureExit" aria-label="Go back" title="Go back" onClick={() => { if (window.history.length > 1) window.history.back(); else close(); }}>←</button><ModelArchitecture /></div>}
+      {panel === "modelArchitecture" && <div className="architectureScreen"><button className="architectureExit" aria-label="Back to previous view" title="Back to previous view" onClick={() => { uiSound("close"); setPanel(null); }}>←</button><ModelArchitecture /></div>}
 
       {panel && panel !== "modelArchitecture" && (
         <div className="interfaceLayer" onClick={close}>
