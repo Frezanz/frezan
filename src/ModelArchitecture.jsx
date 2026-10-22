@@ -79,12 +79,12 @@ export default function ModelArchitecture(){
   try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:"high-performance"});}catch(e){host.innerHTML='<div class="archWebglError">WebGL is unavailable. Enable hardware acceleration or use a browser with WebGL support.</div>';return;}
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
   renderer.domElement.className="archThreeCanvas";renderer.domElement.setAttribute("aria-label","Interactive Three.js WebGL architecture scene");renderer.domElement.style.touchAction="none";host.appendChild(renderer.domElement);
-  controls=new OrbitControls(camera,renderer.domElement);controls.enableRotate=false;controls.enableDamping=true;controls.dampingFactor=.075;controls.enablePan=true;controls.screenSpacePanning=true;controls.minDistance=3;controls.maxDistance=38;controls.rotateSpeed=.72;controls.zoomSpeed=.9;controls.panSpeed=.65;controls.touches.ONE=THREE.TOUCH.ROTATE;controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;controls.target.set(0,0,0);
+  controls=new OrbitControls(camera,renderer.domElement);controls.enableRotate=false;controls.enableDamping=true;controls.dampingFactor=.075;controls.enablePan=true;controls.screenSpacePanning=true;controls.minDistance=3;controls.maxDistance=38;controls.zoomSpeed=.9;controls.panSpeed=.65;controls.touches.ONE=THREE.TOUCH.ROTATE;controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;controls.target.set(0,0,0);
   if(viewRef.current){camera.position.copy(viewRef.current.position);controls.target.copy(viewRef.current.target);}
   scene.add(new THREE.HemisphereLight(0xa7e8f3,0x08131d,2));
   const keyLight=new THREE.DirectionalLight(0xb2f3ff,3.3);keyLight.position.set(4,7,8);scene.add(keyLight);
   const rimLight=new THREE.PointLight(0x397cff,24,40);rimLight.position.set(-6,2,-7);scene.add(rimLight);
-  const grid=new THREE.GridHelper(26,52,0x1b6878,0x102832);grid.position.y=-3.8;grid.material.transparent=true;grid.material.opacity=.28;scene.add(grid);
+  const grid=new THREE.GridHelper(26,52,0x1b6878,0x102832);grid.position.y=-3.8;grid.material.transparent=true;grid.material.opacity=.22;root.add(grid);
   const sphereGeometry=new THREE.SphereGeometry(1,36,28),ringGeometry=new THREE.TorusGeometry(1,.012,8,56);
   const layerPositions={l1:[0,3,0],l2:[1.25,2,1.15],l3:[-.8,1,.8],l4:[-1.5,0,-.8],l5:[.7,-1,-1.35],l6:[1.35,-2,.45],l7:[-.2,-3,1.15]};
   const layout=arrange(mode);
@@ -114,10 +114,38 @@ export default function ModelArchitecture(){
    edgeObjects.forEach(o=>{if(!o.userData.edge)return;const e=o.userData.edge,active=e.from===id||e.to===id;o.material.opacity=active?.94:.13;});
   };
   applySelection(selectedRef.current);
-  const onDown=e=>{if(e.button!==0)return;downPoint={x:e.clientX,y:e.clientY};lastPointer={x:e.clientX,y:e.clientY};dragging=false;};
-  const onMove=e=>{if(!downPoint||!lastPointer)return;const dx=e.clientX-lastPointer.x,dy=e.clientY-lastPointer.y;if(!dragging&&Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>5)dragging=true;if(dragging){root.rotation.y+=dx*.008;root.rotation.x=Math.max(-1.15,Math.min(1.15,root.rotation.x+dy*.006));}lastPointer={x:e.clientX,y:e.clientY};};
-  const onUp=e=>{if(!downPoint)return;const moved=dragging||Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>6;if(!moved){const rect=renderer.domElement.getBoundingClientRect();pointer.x=(e.clientX-rect.left)/rect.width*2-1;pointer.y=-(e.clientY-rect.top)/rect.height*2+1;raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects([...nodeObjects.values()].map(o=>o.sphere),false)[0];if(hit)setSelected(hit.object.userData.nodeId);}downPoint=null;lastPointer=null;dragging=false;};
-  const cancelPointer=()=>{downPoint=null;lastPointer=null;dragging=false;};renderer.domElement.addEventListener("pointerdown",onDown);renderer.domElement.addEventListener("pointermove",onMove);renderer.domElement.addEventListener("pointerup",onUp);renderer.domElement.addEventListener("pointercancel",cancelPointer);
+  const activePointers=new Set();
+  const onDown=e=>{
+   if(e.pointerType==="mouse"&&e.button!==0)return;
+   activePointers.add(e.pointerId);
+   try{renderer.domElement.setPointerCapture(e.pointerId);}catch{}
+   if(activePointers.size!==1){downPoint=null;lastPointer=null;dragging=false;return;}
+   downPoint={x:e.clientX,y:e.clientY,pointerId:e.pointerId};lastPointer={x:e.clientX,y:e.clientY};dragging=false;
+  };
+  const onMove=e=>{
+   if(!downPoint||downPoint.pointerId!==e.pointerId||!lastPointer||activePointers.size!==1)return;
+   const dx=e.clientX-lastPointer.x,dy=e.clientY-lastPointer.y;
+   if(!dragging&&Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>5)dragging=true;
+   if(dragging){root.rotation.y+=dx*.008;root.rotation.x=Math.max(-1.15,Math.min(1.15,root.rotation.x+dy*.006));}
+   lastPointer={x:e.clientX,y:e.clientY};
+  };
+  const onUp=e=>{
+   if(!activePointers.has(e.pointerId))return;
+   const ownsGesture=downPoint&&downPoint.pointerId===e.pointerId;
+   if(ownsGesture){
+    const moved=dragging||Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>6;
+    if(!moved&&activePointers.size===1){
+     const rect=renderer.domElement.getBoundingClientRect();pointer.x=(e.clientX-rect.left)/rect.width*2-1;pointer.y=-(e.clientY-rect.top)/rect.height*2+1;
+     raycaster.setFromCamera(pointer,camera);
+     const hit=raycaster.intersectObjects([...nodeObjects.values()].map(o=>o.sphere),false)[0];
+     if(hit)setSelected(hit.object.userData.nodeId);
+    }
+   }
+   activePointers.delete(e.pointerId);
+   try{if(renderer.domElement.hasPointerCapture(e.pointerId))renderer.domElement.releasePointerCapture(e.pointerId);}catch{}
+   if(ownsGesture||activePointers.size===0){downPoint=null;lastPointer=null;dragging=false;}
+  };
+  const cancelPointer=e=>{if(e?.pointerId!=null)activePointers.delete(e.pointerId);downPoint=null;lastPointer=null;dragging=false;};renderer.domElement.addEventListener("pointerdown",onDown);renderer.domElement.addEventListener("pointermove",onMove);renderer.domElement.addEventListener("pointerup",onUp);renderer.domElement.addEventListener("pointercancel",cancelPointer);
   labelRenderer=new CSS2DRenderer();labelRenderer.domElement.className="archLabelsLayer";Object.assign(labelRenderer.domElement.style,{position:"absolute",inset:"0",overflow:"hidden",pointerEvents:"none"});host.appendChild(labelRenderer.domElement);
   const resize=()=>{if(disposed)return;const w=Math.max(host.clientWidth,1),h=Math.max(host.clientHeight,1);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);labelRenderer.setSize(w,h);};
   resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);resize();let last=0;
