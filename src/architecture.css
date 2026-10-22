@@ -80,3 +80,6 @@
 .archToolbarActions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;width:100%}
 .archToolbarActions .archInlineHide{margin-left:auto}
 @media(max-width:700px){.archToolbarActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.archToolbarActions .archInlineHide{margin-left:0}.archToolbarActions button{min-width:0;width:100%;min-height:34px;padding:6px 4px;font-size:8px!important}.architectureScreen .architectureExit{width:32px;height:32px;font-size:18px!important}}
+/* Restore the controls toggle: a later override accidentally hid it completely. */
+.archTopbar--minimal .archControlsToggle{display:flex!important;position:fixed!important;z-index:121;top:7px;right:48px;height:32px;align-items:center;justify-content:center;white-space:nowrap;padding:7px 9px!important;font-size:8px!important;background:rgba(2,14,20,.96)!important;border:1px solid rgba(83,215,241,.4)!important;color:#a9edf8!important}
+@media(max-width:700px){.archTopbar--minimal .archControlsToggle{top:7px;right:47px;height:32px;padding:7px 6px!important;font-size:7px!important}}
