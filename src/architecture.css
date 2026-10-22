@@ -41,3 +41,15 @@
 .archFullscreenWorkspace:not(:has(>.archTopbar))>.archWorkspace{margin-top:0}
 .archFullscreenWorkspace:has(>.archTopbar)>.archWorkspace{margin-top:8px}
 @media(max-width:700px){.archControlsToggle{top:7px;right:7px;padding:8px 9px!important;font-size:8px!important}.archFullscreenWorkspace:has(>.archTopbar)>.archWorkspace{margin-top:5px}}
+/* Keep primary site navigation/title visible; collapse only the architecture tools. */
+.archFullscreenWorkspace{gap:5px!important}
+.archFullscreenWorkspace>.archTopbar{padding:5px 4px 2px;min-height:78px;align-items:flex-start}
+.archFullscreenWorkspace .archTopbar h1{font-size:clamp(20px,3vw,30px);margin:3px 0}
+.archControlsRow{display:flex;justify-content:flex-end;align-items:center;min-height:32px;flex:0 0 auto;padding:0 2px}
+.archControlsToggle{position:static;z-index:2;box-shadow:none;font-size:9px!important;padding:6px 10px!important}
+.archToolbar{flex:0 0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:7px 8px}
+.archToolbarActions{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.archToolbarActions button{font-size:9px;padding:6px 8px}
+.archFullscreenWorkspace>.archWorkspace{flex:1 1 0;min-height:0;width:100%;margin-top:0!important}
+.archFullscreenWorkspace .archMapColumn,.archFullscreenWorkspace .archCanvasWrap,.archFullscreenWorkspace .archThreeHost{height:100%;min-height:0}
+@media(max-width:700px){.archFullscreenWorkspace>.archTopbar{min-height:94px;padding-top:5px}.archFullscreenWorkspace .archTopbar h1{font-size:24px}.archFullscreenWorkspace .archTopbar p{max-width:90%;line-height:1.5}.archControlsRow{min-height:30px}.archToolbar{padding:6px;gap:6px}}
