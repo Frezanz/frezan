@@ -105,9 +105,9 @@ export default function ModelArchitecture(){
    const a=pointById.get(edge.from),b=pointById.get(edge.to);if(!a||!b)return;
    const color=new THREE.Color(relationColors[edge.type]||"#70e9ff"),curve=new THREE.QuadraticBezierCurve3(a.clone(),a.clone().add(b).multiplyScalar(.5).add(new THREE.Vector3(0,0,.18)),b.clone());
    const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(28)),new THREE.LineBasicMaterial({color,transparent:true,opacity:.34,depthWrite:false}));
-   line.userData.edge=edge;scene.add(line);edgeObjects.push(line);
+   line.userData.edge=edge;root.add(line);edgeObjects.push(line);
    const direction=b.clone().sub(a).normalize(),arrow=new THREE.Mesh(new THREE.ConeGeometry(.065,.2,10),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.2}));
-   arrow.position.copy(b).addScaledVector(direction,-.16);arrow.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction);arrow.userData.edge=edge;scene.add(arrow);edgeObjects.push(arrow);
+   arrow.position.copy(b).addScaledVector(direction,-.16);arrow.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction);arrow.userData.edge=edge;root.add(arrow);edgeObjects.push(arrow);
   });
   const applySelection=id=>{
    nodeObjects.forEach((o,nodeId)=>{const active=nodeId===id;o.material.emissiveIntensity=active?1:.36;o.ring.material.opacity=active?1:.68;o.halo.material.opacity=active?.18:.065;o.group.scale.setScalar(active?1.13:1);o.label.classList.toggle("isSelected",active);o.label.style.display=(!labelsRef.current&&!active)?"none":"";});
