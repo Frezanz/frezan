@@ -83,3 +83,9 @@
 /* Restore the controls toggle: a later override accidentally hid it completely. */
 .archTopbar--minimal .archControlsToggle{display:flex!important;position:fixed!important;z-index:121;top:7px;right:48px;height:32px;align-items:center;justify-content:center;white-space:nowrap;padding:7px 9px!important;font-size:8px!important;background:rgba(2,14,20,.96)!important;border:1px solid rgba(83,215,241,.4)!important;color:#a9edf8!important}
 @media(max-width:700px){.archTopbar--minimal .archControlsToggle{top:7px;right:47px;height:32px;padding:7px 6px!important;font-size:7px!important}}
+/* Compact, aligned navigation rail: one row, same height, no floating overlap. */
+.architectureScreen{padding:5px!important}
+.architectureScreen .architectureExit{position:fixed!important;top:7px!important;right:7px!important;width:30px!important;height:30px!important;padding:0!important;display:flex;align-items:center;justify-content:center;font-size:16px!important}
+.archTopbar--minimal .archControlsToggle{top:7px;right:43px;height:30px;padding:5px 7px!important;font-size:7px!important;letter-spacing:0}
+.archFullscreenWorkspace>.archWorkspace{min-height:0}
+@media(max-width:700px){.architectureScreen{padding:4px!important}.architectureScreen .architectureExit{top:6px!important;right:6px!important;width:28px!important;height:28px!important}.archTopbar--minimal .archControlsToggle{top:6px;right:39px;height:28px;padding:4px 6px!important;font-size:7px!important}}
