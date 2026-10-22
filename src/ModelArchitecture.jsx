@@ -1,0 +1,154 @@
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
+import "./architecture.css";
+
+const nodes = [
+  {id:"l1",label:"LAYER 1",title:"Universal Environment",kind:"layer",cat:"Foundation",x:0,y:3,z:0,desc:"The shared representational and computational space where structures can exist, be constructed, transformed and run.",items:["Standard primitives: symbols, values, numbers, units, types and shapes","Open-ended construction of new structures","Transformations, geometry, graphs, simulations and dynamic environments"],input:"Representations, construction requests, data and state changes.",output:"Structured representations, transformed objects and updated state.",ref:"§2 · Layer 1",anchor:"layer-1"},
+  {id:"l2",label:"LAYER 2",title:"Formulae Layer",kind:"layer",cat:"Execution",x:0,y:2,z:0,desc:"Reusable executable units that give the environment functional capabilities.",items:["Explicit inputs and outputs","Preconditions, dependencies and activation rules","Composition into sequential, branching or parallel paths"],input:"Representations, execution requests and state.",output:"Computed results, transformations, events and further activations.",ref:"§3 · Layer 2",anchor:"layer-2"},
+  {id:"l3",label:"LAYER 3",title:"Intelligence Layer",kind:"layer",cat:"Reasoning",x:0,y:1,z:0,desc:"Reasoning, inference, hypothetical situations, planning, comparison and problem-solving.",items:["Hypothesis generation and evaluation","Counterfactuals and alternative futures","Planning, constraints and iterative revision"],input:"Goals, context, knowledge, representations and results.",output:"Hypotheses, plans, explanations and candidate solutions.",ref:"§4 · Layer 3",anchor:"layer-3"},
+  {id:"l4",label:"LAYER 4",title:"Knowledge Layer",kind:"layer",cat:"Knowledge",x:0,y:0,z:0,desc:"Persistent organization of established, incomplete, uncertain, hypothetical and unknown information.",items:["Entities, facts, rules, procedures and relations","Source, provenance, confidence and uncertainty","Revision, contradiction handling and knowledge history"],input:"Observations, sources, derived results and existing knowledge.",output:"Relevant context, evidence, unknowns and updated knowledge.",ref:"§5 · Layer 4",anchor:"layer-4"},
+  {id:"l5",label:"LAYER 5",title:"Creativity & Emotion",kind:"layer",cat:"Exploration",x:0,y:-1,z:0,desc:"Creative generation and exploration, combined with functional mechanisms inspired by human emotion and motivation.",items:["Novel combinations, analogy and alternative representations","Curiosity, urgency, caution and persistence variables","Context-sensitive changes to exploration and attention"],input:"Goals, context, outcomes, uncertainty and unresolved questions.",output:"Creative candidates, exploration priorities and modulated behavior.",ref:"§6 · Layer 5",anchor:"layer-5"},
+  {id:"l6",label:"LAYER 6",title:"Concentration & Maintenance",kind:"layer",cat:"Supervision",x:0,y:-2,z:0,desc:"Inspect computation, detect inefficient or defective patterns, and support controlled maintenance and improvement.",items:["Trace inspection and error detection","Redundancy reduction and context reorganization","Tested changes, provenance and rollback"],input:"Execution traces, metrics, failures and resource profiles.",output:"Diagnostics, improvement proposals and validated maintenance actions.",ref:"§7 · Layer 6",anchor:"layer-6"},
+  {id:"l7",label:"LAYER 7",title:"Output & Interaction",kind:"layer",cat:"Interface",x:0,y:-3,z:0,desc:"A live, human-observable and interactive manifestation of the actual running system—not a separate animation pretending to show its state.",items:["Live views of structures, processes and state changes","Select, inspect, edit and transform supported objects","Bidirectional interaction with the running model"],input:"Execution events, model state, representations and user actions.",output:"Visualizations, typed outputs and interaction commands.",ref:"§8 · Layer 7",anchor:"layer-7"},
+  {id:"runtime",label:"RUNTIME",title:"Shared Execution Runtime",kind:"infra",cat:"Infrastructure",x:2.7,y:0,z:0,desc:"Cross-cutting infrastructure coordinating execution across all layers.",items:["Scheduler, typed data flow and dependency tracking","Persistence, budgets, concurrency and cycle handling","Trace recording and live event delivery"],input:"Runnable work, dependencies, events and resource constraints.",output:"Scheduled execution, propagated state, traces and interface events.",ref:"§9 · Shared Runtime",anchor:"shared-runtime"},
+  {id:"repr",label:"REPRESENTATIONS",title:"Representation Space",kind:"resource",cat:"Foundation",x:-2.6,y:2,z:.4,desc:"Standard and open-ended structures used across the architecture: symbols, quantities, objects, graphs, geometry, types and dynamic states.",items:["Shared standards with extensible construction","Typed properties, relationships and transformations","2D/3D, numerical, symbolic and multimodal forms"],input:"Primitives, constructors and transformations.",output:"Composable structures and stateful representations.",ref:"§2.2–2.5 · Representations",anchor:"representations"},
+  {id:"registry",label:"FORMULA REGISTRY",title:"Formula Registry & Contracts",kind:"resource",cat:"Execution",x:-2.5,y:.6,z:.5,desc:"Catalog and metadata contracts for discoverable, reusable executable units.",items:["Stable IDs and versions","Input/output schemas, preconditions and dependencies","Known failures, permissions and resource limits"],input:"Formula definitions and revisions.",output:"Validated candidates for routing and execution.",ref:"§3.2–3.4 · Formula Contracts",anchor:"formula-contracts"},
+  {id:"store",label:"KNOWLEDGE STORE",title:"Knowledge Store",kind:"resource",cat:"Knowledge",x:-2.5,y:-.8,z:.5,desc:"Persistent structured knowledge with explicit status, source, time and uncertainty.",items:["Facts, hypotheses, observations and derived claims","Relations, provenance and temporal validity","Conflict tracking and revision history"],input:"Observations, hypotheses and evaluated conclusions.",output:"Retrievable context and traceable knowledge updates.",ref:"§5.2–5.5 · Knowledge Lifecycle",anchor:"knowledge-lifecycle"},
+  {id:"traces",label:"TRACE STORE",title:"Execution Traces & Evaluation",kind:"resource",cat:"Supervision",x:2.5,y:-1.8,z:.4,desc:"Recorded execution events and measurements for observability, debugging and controlled improvement.",items:["Events, formula paths and state transitions","Benchmarks, failures, latency and resource usage","Before/after comparisons and rollback evidence"],input:"Runtime events, evaluation results and maintenance observations.",output:"Trace data, diagnostics and evidence for improvement.",ref:"§7.2–7.5 · Inspection & Maintenance",anchor:"maintenance-loop"},
+  {id:"external",label:"EXTERNAL WORLD",title:"External Tools & World",kind:"external",cat:"Integration",x:2.5,y:1.6,z:.4,desc:"External information sources, APIs, software tools, devices and environments accessed through controlled interfaces.",items:["Tool calls and external observations","Simulation or real-world actions where supported","Permissions, validation and result ingestion"],input:"Requests and authorized actions.",output:"External results, observations and state changes.",ref:"§9.2 · Runtime Integrations",anchor:"shared-runtime"}
+];
+const edges = [
+  ["l1","repr","foundation","provides representational space","Layer 1 supplies common structures and transformations.","§2.1–2.5"],
+  ["repr","l2","execution","structures become executable inputs","Formulae operate on typed structures from the environment.","§2.7 + §3.2"],
+  ["l2","registry","execution","registered formula contracts","IDs, schemas, dependencies and constraints make units discoverable.","§3.2"],
+  ["registry","runtime","execution","eligible formulae","The runtime schedules formulae after checking execution requirements.","§3.4 + §9.2"],
+  ["runtime","l2","execution","schedules execution","The runtime coordinates when and how executable units run.","§9.1–9.4"],
+  ["l2","l3","information","supplies operations","Reasoning can invoke and compose reusable operations.","§3.4 + §4.2"],
+  ["store","l4","information","persistent knowledge","The knowledge layer organizes information while the store preserves it.","§5.3–5.4"],
+  ["l4","l3","information","provides context and evidence","Reasoning retrieves facts, rules, hypotheses and unknowns.","§4.5 + §5.6"],
+  ["l3","l4","feedback","proposes derived knowledge","Candidate conclusions retain their status and evidence basis.","§4.5 + §5.2"],
+  ["l5","l3","control","broadens exploration","Creative mechanisms generate alternatives and influence path selection.","§6.2–6.6"],
+  ["l3","l5","feedback","evaluates candidates","Reasoning tests, refines or rejects creative candidates.","§6.3–6.6"],
+  ["runtime","l6","observation","exposes execution traces","Maintenance inspects real events, outcomes and resource profiles.","§7.2"],
+  ["l6","runtime","control","proposes controlled changes","Maintenance can recommend routing or formula changes that require validation.","§7.4–7.5"],
+  ["runtime","traces","observation","records actual activity","Execution events and measurements support inspection and evaluation.","§7.2 + §9.2"],
+  ["traces","l6","information","supports diagnosis","Recorded traces help identify errors and repeated work.","§7.2–7.4"],
+  ["runtime","l7","observation","streams selected live state","The interface receives actual selected events and state.","§8.2 + §8.7"],
+  ["l7","l1","interaction","sends user edits back","Supported user actions can alter actual representations, not just the display.","§8.4–8.5"],
+  ["l7","runtime","interaction","commands and controls","User commands can request inspection, changes or supported runtime actions.","§8.4 + §9.2"],
+  ["l1","l2","foundation","enables operations","The environment supplies the substrate on which formulae operate.","§2 + §3"],
+  ["external","runtime","integration","returns external observations","Authorized tools return results through runtime-managed interfaces.","§9.2"],
+  ["runtime","external","integration","authorized tool actions","The system may invoke tools under defined permissions and constraints.","§9.2"],
+  ["l3","l7","information","exposes selected reasoning state","The interface may show selected hypotheses and paths, not claim complete transparency.","§8.2 + §8.7"],
+  ["l4","l6","information","context health","Context quality, staleness and conflicts can be inspected.","§7.2"],
+  ["l6","store","control","proposes reorganization","Maintenance may propose context changes while preserving traceability.","§7.4–7.5"]
+].map(([from,to,type,label,explain,ref])=>({from,to,type,label,explain,ref}));
+const relationColors={foundation:"#6fe6ff",execution:"#a5f3b5",information:"#b8a7ff",control:"#ff9bcb",feedback:"#ffc477",observation:"#7bd5c7",interaction:"#7da9ff",integration:"#ffb16e"};
+const categoryColors={Foundation:"#6fe6ff",Execution:"#a5f3b5",Reasoning:"#ffc477",Knowledge:"#b8a7ff",Exploration:"#ff9bcb",Supervision:"#f5d47b",Interface:"#7da9ff",Infrastructure:"#7bd5c7",Integration:"#ffb16e"};
+const relationNames={foundation:"Foundation",execution:"Execution",information:"Information",control:"Control",feedback:"Feedback",observation:"Observation",interaction:"Interaction",integration:"External I/O"};
+const relationTypes=["all","foundation","execution","information","control","feedback","observation","interaction","integration"];
+function arrange(mode){
+  return nodes.map((n,i)=>{
+    if(mode==="dependency"){
+      const p={l1:[-2.8,2.1,0],repr:[-4,1.3,.4],l2:[-1.2,1.3,0],registry:[-2.4,.1,.4],l3:[0,.3,0],l4:[-1.7,-1.1,0],store:[-2.8,-2,.4],l5:[1.5,1.4,0],l6:[2.4,-1.1,0],traces:[3.7,-1.8,.4],l7:[3.1,.7,0],runtime:[1.2,-.1,.2],external:[4.2,1.8,.4]};
+      return {...n,px:p[n.id][0],py:p[n.id][1],pz:p[n.id][2]};
+    }
+    if(mode==="cycle"){const a=i/nodes.length*Math.PI*2,r=n.kind==="layer"?2.8:3.9;return {...n,px:Math.cos(a)*r,py:Math.sin(a)*r,pz:Math.sin(a*2)*(n.kind==="layer" ? 0.8 : 1.1)};}
+    if(n.kind==="layer"){const angle=i*.72;return {...n,px:Math.sin(angle)*.82,py:n.y,pz:Math.cos(angle)*1.15};}return {...n,px:n.x,py:n.y,pz:n.z};
+  });
+}
+export default function ModelArchitecture(){
+ const hostRef=useRef(null),engineRef=useRef(null),viewRef=useRef(null),detailPanelRef=useRef(null),selectedRef=useRef("l1"),labelsRef=useRef(false),autoRotateRef=useRef(false);
+ const [mode,setMode]=useState("layers"),[relation,setRelation]=useState("all"),[selected,setSelected]=useState("l1"),[search,setSearch]=useState(""),[labels,setLabels]=useState(false),[full,setFull]=useState(false),[tab,setTab]=useState("map"),[autoRotate,setAutoRotate]=useState(false),[viewMode,setViewMode]=useState("map"),[showDetails,setShowDetails]=useState(true),[showExplanations,setShowExplanations]=useState(true);
+ const visible=useMemo(()=>{const q=search.trim().toLowerCase();return arrange(mode).filter(n=>!q||[n.title,n.label,n.cat,n.desc,...n.items].join(" ").toLowerCase().includes(q));},[mode,search]);
+ const ids=useMemo(()=>new Set(visible.map(n=>n.id)),[visible]);
+ const shownEdges=useMemo(()=>edges.filter(e=>ids.has(e.from)&&ids.has(e.to)&&(relation==="all"||e.type===relation)),[ids,relation]);
+ const chosen=nodes.find(n=>n.id===selected)||nodes[0],chosenEdges=edges.filter(e=>e.from===selected||e.to===selected);
+ useEffect(()=>{selectedRef.current=selected;engineRef.current?.applySelection(selected);},[selected]);
+ useEffect(()=>{labelsRef.current=labels;engineRef.current?.applySelection(selectedRef.current);},[labels]);
+ useEffect(()=>{autoRotateRef.current=autoRotate;},[autoRotate]);
+ useEffect(()=>{
+  const host=hostRef.current;if(!host)return;
+  let renderer,labelRenderer,controls,resizeObserver,raf,disposed=false,downPoint=null;
+  const scene=new THREE.Scene();scene.background=new THREE.Color("#020b10");
+  const camera=new THREE.PerspectiveCamera(42,1,.1,200);camera.position.set(0,1.2,13);
+  const root=new THREE.Group();scene.add(root);
+  const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(),nodeObjects=new Map(),edgeObjects=[],pointById=new Map();
+  try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:"high-performance"});}catch(e){host.innerHTML='<div class="archWebglError">WebGL is unavailable. Enable hardware acceleration or use a browser with WebGL support.</div>';return;}
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
+  renderer.domElement.className="archThreeCanvas";renderer.domElement.setAttribute("aria-label","Interactive Three.js WebGL architecture scene");renderer.domElement.style.touchAction="none";host.appendChild(renderer.domElement);
+  controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.075;controls.enablePan=true;controls.screenSpacePanning=true;controls.minDistance=3;controls.maxDistance=38;controls.rotateSpeed=.72;controls.zoomSpeed=.9;controls.panSpeed=.65;controls.touches.ONE=THREE.TOUCH.ROTATE;controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;controls.target.set(0,0,0);
+  if(viewRef.current){camera.position.copy(viewRef.current.position);controls.target.copy(viewRef.current.target);}
+  scene.add(new THREE.HemisphereLight(0xa7e8f3,0x08131d,2));
+  const keyLight=new THREE.DirectionalLight(0xb2f3ff,3.3);keyLight.position.set(4,7,8);scene.add(keyLight);
+  const rimLight=new THREE.PointLight(0x397cff,24,40);rimLight.position.set(-6,2,-7);scene.add(rimLight);
+  const grid=new THREE.GridHelper(26,52,0x1b6878,0x102832);grid.position.y=-3.8;grid.material.transparent=true;grid.material.opacity=.28;scene.add(grid);
+  const sphereGeometry=new THREE.SphereGeometry(1,36,28),ringGeometry=new THREE.TorusGeometry(1,.012,8,56);
+  const layerPositions={l1:[0,3,0],l2:[1.25,2,1.15],l3:[-.8,1,.8],l4:[-1.5,0,-.8],l5:[.7,-1,-1.35],l6:[1.35,-2,.45],l7:[-.2,-3,1.15]};
+  const layout=arrange(mode);
+  layout.forEach(n=>{
+   const xyz=n.kind==="layer"&&mode==="layers"?layerPositions[n.id]:[n.px,n.py,n.pz];
+   const pos=new THREE.Vector3(xyz[0],xyz[1],xyz[2]);pointById.set(n.id,pos);
+   const color=new THREE.Color(categoryColors[n.cat]||"#72e9ff"),radius=n.kind==="layer"?.25:.18,group=new THREE.Group();group.position.copy(pos);group.userData.nodeId=n.id;
+   const material=new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.36,metalness:.42,roughness:.23});
+   const sphere=new THREE.Mesh(sphereGeometry,material);sphere.scale.setScalar(radius);sphere.userData.nodeId=n.id;group.add(sphere);
+   const wire=new THREE.Mesh(sphereGeometry,new THREE.MeshBasicMaterial({color,wireframe:true,transparent:true,opacity:.13,depthWrite:false}));wire.scale.setScalar(radius*1.12);group.add(wire);
+   const halo=new THREE.Mesh(sphereGeometry,new THREE.MeshBasicMaterial({color,transparent:true,opacity:.065,side:THREE.BackSide,depthWrite:false}));halo.scale.setScalar(radius*1.5);group.add(halo);
+   const ring=new THREE.Mesh(ringGeometry,new THREE.MeshBasicMaterial({color,transparent:true,opacity:.68}));ring.scale.setScalar(radius*1.34);ring.rotation.x=Math.PI/2;group.add(ring);
+   const label=document.createElement("div");label.className="archWorldLabel";label.textContent=n.kind==="layer"?n.label:n.title.toUpperCase();label.style.setProperty("--node-colour",categoryColors[n.cat]||"#72e9ff");
+   const labelObject=new CSS2DObject(label);labelObject.position.set(0,-radius-.2,0);group.add(labelObject);
+   root.add(group);nodeObjects.set(n.id,{node:n,group,sphere,material,halo,ring,label,radius});
+  });
+  shownEdges.forEach(edge=>{
+   const a=pointById.get(edge.from),b=pointById.get(edge.to);if(!a||!b)return;
+   const color=new THREE.Color(relationColors[edge.type]||"#70e9ff"),curve=new THREE.QuadraticBezierCurve3(a.clone(),a.clone().add(b).multiplyScalar(.5).add(new THREE.Vector3(0,0,.18)),b.clone());
+   const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(28)),new THREE.LineBasicMaterial({color,transparent:true,opacity:.34,depthWrite:false}));
+   line.userData.edge=edge;root.add(line);edgeObjects.push(line);
+   const direction=b.clone().sub(a).normalize(),arrow=new THREE.Mesh(new THREE.ConeGeometry(.065,.2,10),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.2}));
+   arrow.position.copy(b).addScaledVector(direction,-.16);arrow.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction);arrow.userData.edge=edge;root.add(arrow);edgeObjects.push(arrow);
+  });
+  const applySelection=id=>{
+   nodeObjects.forEach((o,nodeId)=>{const active=nodeId===id;o.material.emissiveIntensity=active?1:.36;o.ring.material.opacity=active?1:.68;o.halo.material.opacity=active?.18:.065;o.group.scale.setScalar(active?1.13:1);o.label.classList.toggle("isSelected",active);o.label.style.display=(!labelsRef.current&&!active)?"none":"";});
+   edgeObjects.forEach(o=>{if(!o.userData.edge)return;const e=o.userData.edge,active=e.from===id||e.to===id;o.material.opacity=active?.94:.13;});
+  };
+  applySelection(selectedRef.current);
+  const onDown=e=>{downPoint={x:e.clientX,y:e.clientY};};
+  const onUp=e=>{if(!downPoint||Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>6){downPoint=null;return;}const rect=renderer.domElement.getBoundingClientRect();pointer.x=(e.clientX-rect.left)/rect.width*2-1;pointer.y=-(e.clientY-rect.top)/rect.height*2+1;raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects([...nodeObjects.values()].map(o=>o.sphere),false)[0];if(hit)setSelected(hit.object.userData.nodeId);downPoint=null;};
+  const cancelPointer=()=>{downPoint=null;};renderer.domElement.addEventListener("pointerdown",onDown);renderer.domElement.addEventListener("pointerup",onUp);renderer.domElement.addEventListener("pointercancel",cancelPointer);
+  labelRenderer=new CSS2DRenderer();labelRenderer.domElement.className="archLabelsLayer";Object.assign(labelRenderer.domElement.style,{position:"absolute",inset:"0",overflow:"hidden",pointerEvents:"none"});host.appendChild(labelRenderer.domElement);
+  const resize=()=>{if(disposed)return;const w=Math.max(host.clientWidth,1),h=Math.max(host.clientHeight,1);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);labelRenderer.setSize(w,h);};
+  resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);resize();let last=0;
+  const animate=now=>{if(disposed)return;raf=requestAnimationFrame(animate);const dt=Math.min((now-last)/1000||0,.05);last=now;if(autoRotateRef.current)root.rotation.y+=dt*.13;controls.update();renderer.render(scene,camera);labelRenderer.render(scene,camera);
+   const panel=detailPanelRef.current,selectedNode=nodeObjects.get(selectedRef.current);
+   if(panel&&selectedNode){
+    const projected=selectedNode.group.getWorldPosition(new THREE.Vector3()).project(camera);
+    const w=host.clientWidth,h=host.clientHeight;
+    const anchorX=(projected.x*.5+.5)*w,anchorY=(-projected.y*.5+.5)*h;
+    const panelW=panel.offsetWidth||340,panelH=panel.offsetHeight||360;
+    const left=Math.max(8,Math.min(w-panelW-8,anchorX+panelW+24<w?anchorX+22:anchorX-panelW-22));
+    const top=Math.max(8,Math.min(h-panelH-8,anchorY-panelH*.22));
+    panel.style.left=left+"px";panel.style.top=top+"px";panel.style.right="auto";panel.style.bottom="auto";
+    panel.style.visibility=projected.z<1&&Math.abs(projected.x)<1.2&&Math.abs(projected.y)<1.2?"visible":"hidden";
+   }
+  };animate(0);
+  engineRef.current={applySelection,zoom:f=>{camera.position.sub(controls.target).multiplyScalar(f).add(controls.target);controls.update();},reset:()=>{camera.position.set(0,1.2,13);controls.target.set(0,0,0);root.rotation.set(0,0,0);controls.update();}};
+  return()=>{disposed=true;cancelAnimationFrame(raf);resizeObserver?.disconnect();renderer.domElement.removeEventListener("pointerdown",onDown);renderer.domElement.removeEventListener("pointerup",onUp);renderer.domElement.removeEventListener("pointercancel",cancelPointer);viewRef.current={position:camera.position.clone(),target:controls.target.clone()};controls.dispose();scene.traverse(o=>{o.geometry?.dispose?.();if(o.material){const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>{m.map?.dispose?.();m.dispose?.();});}});sphereGeometry.dispose();ringGeometry.dispose();renderer.dispose();renderer.domElement.remove();labelRenderer.domElement.remove();engineRef.current=null;};
+ },[mode,visible,shownEdges]);
+ useEffect(()=>{document.body.style.overflow=full?"hidden":"";return()=>{document.body.style.overflow="";};},[full]);
+ useEffect(()=>{if(!full)return;const key=e=>{if(e.key==="Escape")setFull(false);};window.addEventListener("keydown",key);return()=>window.removeEventListener("keydown",key);},[full]);
+ const reset=()=>{engineRef.current?.reset();setSelected("l1");};
+ const zoomIn=()=>engineRef.current?.zoom(.84),zoomOut=()=>engineRef.current?.zoom(1.19);
+ const detailNode=item=><aside ref={detailPanelRef} className="archDetail archDetailFloating" aria-live="polite"><div className="archDetailTop"><span>{item.label} / {item.cat.toUpperCase()}</span><button className="archDetailClose" onClick={()=>setShowDetails(false)} aria-label="Close node explanation">×</button><b>{item.kind==="layer"?"LAYER":item.kind==="infra"?"CROSS-CUTTING":"SYSTEM COMPONENT"}</b></div><h3>{item.title}</h3><p>{item.desc}</p><div className="archDetailSection"><small>MECHANISMS / CAPABILITIES</small><ul>{item.items.map(x=><li key={x}>{x}</li>)}</ul></div><div className="archIO"><div><small>INPUTS</small><p>{item.input}</p></div><div><small>OUTPUTS</small><p>{item.output}</p></div></div><div className="archDetailSection"><small>DIRECT RELATIONS ({chosenEdges.length})</small><div className="archRelationList">{chosenEdges.map((e,i)=>{const out=e.from===item.id,other=nodes.find(n=>n.id===(out?e.to:e.from));return <button key={e.from+e.to+i} onClick={()=>setSelected(other.id)}><i style={{background:relationColors[e.type]}}/><span><b>{out?"TO → ":"← FROM "}{other.title}</b><em>{e.label}</em><small>{e.explain} · {e.ref}</small></span></button>;})}</div></div><a className="archSpecLink" href={"https://github.com/Frezanz/frezan/blob/feature/model-architecture-3d/docs/model-architecture.md#"+item.anchor} target="_blank" rel="noreferrer">OPEN REFERENCE {item.ref} ↗</a></aside>;
+ return <div className={"modelArch "+(full?"archFullscreen archMapImmersive":"")}>
+  {!full&&<div className="archIntro"><div><span className="archEyebrow">FREZANZ / SYSTEMS MAP / 01</span><h2>Model Architecture</h2><p>Explore the architecture in real 3D. Rotate, zoom and select components to inspect their specification.</p></div><div className="archStatus"><i/> THREE.JS / WEBGL<small>INTERACTIVE 3D SCENE · PROPOSED ARCHITECTURE</small></div></div>}
+  {!full&&<div className="archTabs"><button className={tab==="map"?"active":""} onClick={()=>setTab("map")}>01 / 3D RELATION MAP</button><button className={tab==="layers"?"active":""} onClick={()=>setTab("layers")}>02 / LAYER GUIDE</button><button className={tab==="connections"?"active":""} onClick={()=>setTab("connections")}>03 / CONNECTION TYPES</button></div>}
+  {(full||tab==="map")&&<>{<div className="archToolbar"><label className="archSearch"><span>⌕</span><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Find a layer, mechanism or component…"/></label><label className="archSelect"><span>ARRANGEMENT</span><select value={mode} onChange={e=>{viewRef.current=null;setMode(e.target.value);}}><option value="layers">Layer order</option><option value="dependency">Dependency view</option><option value="cycle">Cycle view</option></select></label><label className="archSelect"><span>RELATION</span><select value={relation} onChange={e=>setRelation(e.target.value)}>{relationTypes.map(t=><option key={t} value={t}>{t==="all"?"All relations":relationNames[t]}</option>)}</select></label><label className="archSelect"><span>DISPLAY</span><select value={viewMode} onChange={e=>setViewMode(e.target.value)}><option value="map">Spatial map</option><option value="list">List view</option></select></label></div>}
+  {viewMode==="list"?<div className="archListView">{visible.map(n=><button key={n.id} className={"archListItem "+(selected===n.id?"selected":"")} onClick={()=>setSelected(n.id)}><span className="archListDot" style={{background:categoryColors[n.cat]}}/><span className="archListMain"><small>{n.label} · {n.cat.toUpperCase()}</small><b>{n.title}</b><em>{n.desc}</em></span><span className="archListMeta">{edges.filter(e=>e.from===n.id||e.to===n.id).length} LINKS →</span></button>)}</div>:<div className={"archWorkspace "+(full?"archFullscreenWorkspace":"")}><div className="archMapColumn"><div className="archCanvasWrap"><div ref={hostRef} className="archThreeHost" aria-label="Interactive WebGL 3D model architecture"/>{showDetails&&detailNode(chosen)}<div className="archCanvasActions"><button onClick={()=>setFull(v=>!v)}>{full?"EXIT FULLSCREEN":"FULL SCREEN"}</button><button onClick={reset}>RESET VIEW</button><button onClick={zoomOut}>− ZOOM</button><button onClick={zoomIn}>+ ZOOM</button><button onClick={()=>setAutoRotate(v=>!v)}>{autoRotate?"Ⅱ PAUSE ROTATION":"▶ AUTO ROTATE"}</button><button onClick={()=>setLabels(v=>!v)}>{labels?"HIDE LABELS":"SHOW LABELS"}</button><button onClick={()=>setShowDetails(v=>!v)}>{showDetails?"COLLAPSE DETAILS":"SHOW DETAILS"}</button><button onClick={()=>setShowExplanations(v=>!v)}>{showExplanations?"HIDE EXPLANATIONS":"SHOW EXPLANATIONS"}</button></div><div className="archHint">DRAG TO ROTATE · PINCH TO ZOOM · SCROLL TO ZOOM · TAP A NODE TO INSPECT</div></div>
+  {!full&&<><div className="archLegend"><div><small>NODE CATEGORIES</small><div className="archLegendItems">{Object.entries(categoryColors).map(([k,c])=><span key={k}><i style={{background:c}}/>{k}</span>)}</div></div><div><small>RELATION TYPES</small><div className="archLegendItems">{Object.entries(relationColors).map(([k,c])=><span key={k}><i className="archLineSwatch" style={{background:c}}/>{relationNames[k]}</span>)}</div></div></div><div className="archNote"><button className="archCollapseButton" onClick={()=>setShowExplanations(v=>!v)}><b>READ THIS MAP CORRECTLY</b><span>{showExplanations?"− COLLAPSE":"＋ EXPAND"}</span></button>{showExplanations&&<p>Layer numbers show functional order, not a rule that every task must pass through every layer. Runtime, stores and external tools are cross-cutting components. Arrows represent proposed relationships, not live computation telemetry.</p>}</div></>}</div></div>}</>}
+  {tab==="layers"&&<div className="archGuideGrid">{nodes.filter(n=>n.kind==="layer").map(n=><button className={"archGuideCard "+(selected===n.id?"selected":"")} key={n.id} onClick={()=>{setSelected(n.id);setTab("map");}}><span>{n.label} / {n.cat.toUpperCase()}</span><h3>{n.title}</h3><p>{n.desc}</p><small>{n.ref} ↗</small></button>)}</div>}
+  {tab==="connections"&&<div className="archConnectionGuide">{relationTypes.filter(t=>t!=="all").map(t=><article key={t}><div className="archConnectionTitle"><i style={{background:relationColors[t]}}/><h3>{relationNames[t]}</h3><b>{edges.filter(e=>e.type===t).length} links</b></div><p>{({foundation:"Components provide representational space and primitives.",execution:"Executable work is registered, scheduled and performed.",information:"Knowledge, results or context become available.",control:"A component influences a process or proposed change.",feedback:"Results feed evaluation and revision.",observation:"Runtime state is exposed for inspection.",interaction:"User actions connect to the underlying system.",integration:"Information and authorized actions flow to external tools."})[t]}</p><div>{edges.filter(e=>e.type===t).map((e,i)=><button key={e.from+e.to+i} onClick={()=>{setSelected(e.from);setTab("map");}}><span>{nodes.find(n=>n.id===e.from).title}</span><i>→</i><span>{nodes.find(n=>n.id===e.to).title}</span><small>{e.explain} · {e.ref}</small></button>)}</div></article>)}</div>}
+  <div className="archFooter"><span>SPECIFICATION / PROPOSED DESIGN</span><a href="https://github.com/Frezanz/frezan/blob/feature/model-architecture-3d/docs/model-architecture.md" target="_blank" rel="noreferrer">READ THE FULL ARCHITECTURE SPEC ↗</a><span>THREE.JS · DRAG · PINCH · INSPECT</span></div>
+ </div>;
+}

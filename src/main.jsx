@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import ModelArchitecture from "./ModelArchitecture.jsx";
 import "./styles.css";
 
 const links = [
@@ -76,7 +77,6 @@ function App() {
           <span className="brandCore">F</span><span>FREZANZ</span>
         </button>
         <div className="headerTools">
-          <button className="hudButton" onClick={() => openPanel("settings")} aria-label="Settings"><span className="gear">⚙</span><span>SETTINGS</span></button>
           <button className={`hudButton menuTrigger ${panel === "menu" ? "active" : ""}`} onClick={() => panel === "menu" ? close() : openPanel("menu")} aria-label="Menu"><span>MENU</span><i /><i /><i /></button>
         </div>
       </header>
@@ -90,9 +90,11 @@ function App() {
         <div className="telemetry telemetryRight"><span>SPACE / 04D</span><b>000.001</b><i /></div>
       </section>
 
-      {panel && (
+      {panel === "modelArchitecture" && <div className="architectureScreen"><button className="architectureExit" onClick={close}>← BACK TO FREZANZ</button><ModelArchitecture /></div>}
+
+      {panel && panel !== "modelArchitecture" && (
         <div className="interfaceLayer" onClick={close}>
-          <div className="interfacePanel" onClick={e => e.stopPropagation()}>
+          <div className={`interfacePanel ${panel === "modelArchitecture" ? "architecturePanel" : ""}`} onClick={e => e.stopPropagation()}>
             {panel === "menu" && (
               <>
                 <div className="panelHeader"><span>NAVIGATION</span><b>FREZANZ / SYSTEM</b></div>
@@ -101,9 +103,19 @@ function App() {
                   <button onClick={() => openPanel("about")}><span>02</span><strong>ABOUT</strong><em>+</em></button>
                   <button onClick={() => openPanel("links")}><span>03</span><strong>LINKS</strong><em>↗</em></button>
                   <button onClick={() => openPanel("settings")}><span>04</span><strong>SETTINGS</strong><em>⚙</em></button>
+                  <button className="moreNavCard" onClick={() => openPanel("more")}><span>05</span><strong>MORE</strong><em>⌄</em></button>
                 </nav>
               </>
             )}
+
+            {panel === "more" && (
+              <>
+                <div className="panelHeader"><span>MORE / EXPLORATION</span><b>FREZANZ / KNOWLEDGE SPACE</b></div>
+                <div className="moreIntro"><span>ADDITIONAL SYSTEMS</span><h2>More to explore.</h2><p>Reference spaces and interactive tools that extend the personal interface.</p></div>
+                <nav className="moreNavList"><button onClick={() => openPanel("modelArchitecture")}><span className="moreNumber">01</span><span><strong>MODEL ARCHITECTURE</strong><small>Interactive 3D map · layers · dependencies · relations</small></span><em>↗</em></button></nav>
+              </>
+            )}
+            {panel === "modelArchitecture" && <ModelArchitecture />}
 
             {panel === "about" && (
               <>

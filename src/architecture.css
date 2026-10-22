@@ -1,0 +1,197 @@
+.modelArch{color:#dff9ff;font-family:Manrope,sans-serif}.archIntro{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding:22px 0 20px}.archEyebrow,.archStatus,.archDetailTop,.archDetailSection>small,.archIO small,.archToolbar label span,.archLegend small,.archNote>b,.archFooter,.archCanvasActions,.archHint,.archGuideCard>span,.archGuideCard>small{font:9px "DM Mono",monospace;letter-spacing:.13em;color:#5c9aa7}.archIntro h2{font-size:clamp(30px,5vw,48px);letter-spacing:-.055em;margin:10px 0 9px}.archIntro p{max-width:680px;color:#83aeb8;font-size:12px;line-height:1.7;margin:0}.archStatus{white-space:nowrap;text-align:right;color:#81e8fa}.archStatus i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#75e6ff;box-shadow:0 0 10px #49d9ff;margin-right:8px}.archStatus small{display:block;color:#47717a;font-size:8px;margin-top:8px}.archTabs{display:flex;gap:4px;border-bottom:1px solid rgba(83,215,241,.18);margin-bottom:16px;overflow-x:auto}.archTabs button{flex-shrink:0;padding:13px 14px;font:9px "DM Mono",monospace;letter-spacing:.08em;color:#577e88;border-bottom:2px solid transparent}.archTabs button.active,.archTabs button:hover{color:#a5f2ff;border-color:#5ee4ff}.archToolbar{display:flex;gap:10px;align-items:stretch;margin-bottom:12px;flex-wrap:wrap}.archSearch{display:flex;align-items:center;gap:10px;flex:1 1 220px;min-width:0;padding:0 13px;border:1px solid rgba(83,215,241,.18);background:rgba(7,27,34,.72);color:#6edff5}.archSearch input{min-width:0;width:100%;padding:12px 0;background:transparent;border:0;outline:0;color:#dff9ff;font:11px "DM Mono",monospace}.archSearch input::placeholder{color:#476f78}.archSelect{display:flex;flex-direction:column;gap:5px;padding:8px 10px;border:1px solid rgba(83,215,241,.16);background:rgba(7,27,34,.72);min-width:125px}.archSelect span{font-size:8px!important;color:#4e8894!important}.archSelect select{background:#07151b;color:#c8f4fc;border:0;outline:0;font:10px "DM Mono",monospace;max-width:180px}.archWorkspace{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(250px,.85fr);gap:12px;align-items:start}.archMapColumn{min-width:0}.archCanvasWrap{position:relative;border:1px solid rgba(83,215,241,.23);background:#031018;overflow:hidden}.archCanvasWrap canvas{display:block;width:100%;height:430px;touch-action:none;cursor:grab}.archCanvasWrap canvas:active{cursor:grabbing}.archCanvasActions{position:absolute;top:28px;left:10px;display:flex;flex-wrap:wrap;gap:5px}.archCanvasActions button{padding:7px 8px;border:1px solid rgba(85,215,241,.25);background:rgba(2,14,20,.82);font:8px "DM Mono",monospace;color:#8eddec;letter-spacing:.05em}.archCanvasActions button:hover{border-color:#76eaff;background:rgba(13,48,59,.94)}.archHint{position:absolute;bottom:10px;left:12px;right:12px;font-size:8px;color:#548a97;pointer-events:none}.archLegend{display:grid;gap:12px;padding:14px 12px;border:1px solid rgba(83,215,241,.12);border-top:0;background:rgba(4,19,25,.66)}.archLegend small{display:block;margin-bottom:8px}.archLegendItems{display:flex;flex-wrap:wrap;gap:7px 13px}.archLegendItems span{display:flex;align-items:center;gap:5px;font:9px "DM Mono",monospace;color:#729ba4}.archLegendItems i{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}.archLegendItems i.archLineSwatch{width:13px;height:2px;border-radius:0}.archNote{padding:14px 12px;margin-top:10px;border:1px solid rgba(83,215,241,.12);background:rgba(4,19,25,.5)}.archNote>b{color:#75dff2}.archNote p{font-size:10px;line-height:1.65;color:#6f98a2;margin:8px 0 0}.archDetail{min-width:0;border:1px solid rgba(83,215,241,.22);background:linear-gradient(145deg,rgba(7,26,34,.95),rgba(3,13,19,.94));padding:16px}.archDetailTop{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:8px}.archDetailTop b{font-weight:400;color:#7a9ca5}.archDetail h3{font-size:21px;line-height:1.2;letter-spacing:-.04em;margin:16px 0 9px}.archDetail>p{font-size:11px;line-height:1.7;color:#8eb4be;margin:0 0 18px}.archDetailSection{border-top:1px solid rgba(83,215,241,.13);padding-top:13px;margin-top:13px}.archDetailSection>small,.archIO small{display:block;font-size:8px;color:#579aa7}.archDetailSection ul{padding-left:16px;margin:10px 0 0;color:#a2c3cb;font-size:10px;line-height:1.65}.archDetailSection li+li{margin-top:6px}.archIO{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.archIO>div{padding:10px;background:rgba(16,50,59,.32);border-left:2px solid rgba(95,220,243,.4)}.archIO p{font-size:10px;line-height:1.55;color:#94b6bf;margin:6px 0 0}.archRelationList{display:grid;margin-top:8px;gap:5px}.archRelationList button{display:flex;align-items:flex-start;text-align:left;gap:8px;padding:9px 7px;background:rgba(5,24,31,.8);border:1px solid rgba(83,215,241,.08)}.archRelationList button:hover{border-color:rgba(83,215,241,.4)}.archRelationList button>i{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0}.archRelationList button span{display:block;min-width:0}.archRelationList b{display:block;font:9px "DM Mono",monospace;color:#bcebf4;font-weight:400}.archRelationList em{display:block;font-style:normal;font-size:10px;color:#79a6b1;margin:4px 0}.archRelationList small{display:block;font-size:9px;line-height:1.5;color:#557e89}.archSpecLink{display:block;margin-top:15px;padding:12px 10px;border:1px solid rgba(90,222,247,.27);font:9px "DM Mono",monospace;letter-spacing:.06em;color:#7fe8fb;text-align:center}.archSpecLink:hover{background:rgba(48,187,218,.08)}.archGuideGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.archGuideCard{padding:18px;text-align:left;border:1px solid rgba(83,215,241,.15);background:rgba(5,24,31,.72);transition:.2s}.archGuideCard:hover,.archGuideCard.selected{border-color:rgba(96,226,249,.55);background:rgba(12,43,52,.8)}.archGuideCard h3{font-size:17px;margin:13px 0 8px}.archGuideCard p{font-size:11px;line-height:1.65;color:#80a9b3}.archGuideCard>small{display:block;margin-top:14px;color:#6fdff2}.archConnectionGuide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.archConnectionGuide article{padding:15px;border:1px solid rgba(83,215,241,.14);background:rgba(4,20,27,.72);min-width:0}.archConnectionTitle{display:flex;align-items:center;gap:8px}.archConnectionTitle>i{width:8px;height:8px;border-radius:50%;flex-shrink:0}.archConnectionTitle h3{font-size:15px;margin:0;flex:1}.archConnectionTitle b{font:8px "DM Mono",monospace;color:#5d8d97;font-weight:400}.archConnectionGuide article>p{font-size:10px;line-height:1.65;color:#83a9b2;min-height:48px}.archConnectionGuide article>div:last-child{display:grid;gap:5px}.archConnectionGuide article>div:last-child button{display:grid;grid-template-columns:1fr 14px 1fr;gap:5px;align-items:center;text-align:left;padding:9px 8px;background:rgba(7,28,36,.8);border:1px solid rgba(83,215,241,.08);font-size:9px;color:#a5cbd4}.archConnectionGuide article>div:last-child button>span{line-height:1.4}.archConnectionGuide article>div:last-child button>i{text-align:center;color:#69deef;font-style:normal}.archConnectionGuide article>div:last-child button>small{grid-column:1/-1;color:#608b95;line-height:1.5}.archFooter{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:16px;margin-top:16px;border-top:1px solid rgba(83,215,241,.14);font-size:8px;color:#426d77}.archFooter a{color:#70dff2}.archFooter a:hover{text-decoration:underline}.archFullscreen{position:fixed;inset:0;z-index:1000;overflow:auto;background:#020b10;padding:22px;overscroll-behavior:contain}.archFullscreen .archWorkspace{grid-template-columns:minmax(0,1.8fr) minmax(270px,.7fr)}.archFullscreen .archCanvasWrap canvas{height:min(66vh,760px)}@media(max-width:850px){.archWorkspace{grid-template-columns:1fr}.archDetail{display:grid;grid-template-columns:1fr 1fr;column-gap:14px}.archDetailTop,.archDetail h3,.archDetail>p,.archSpecLink{grid-column:1/-1}.archDetailSection{min-width:0}.archIO{align-self:start}.archCanvasWrap canvas{height:390px}.archStatus{display:none}}@media(max-width:560px){.archIntro{align-items:flex-start;padding-top:12px}.archIntro h2{font-size:30px}.archIntro p{font-size:11px}.archToolbar{display:grid;grid-template-columns:1fr 1fr}.archSearch{grid-column:1/-1}.archSelect select{max-width:100%;width:100%}.archCanvasWrap canvas{height:340px}.archCanvasActions{top:28px;left:7px;right:7px;gap:4px}.archCanvasActions button{font-size:7px;padding:6px}.archHint{font-size:7px}.archDetail{display:block;padding:13px}.archGuideGrid,.archConnectionGuide{grid-template-columns:1fr}.archFullscreen{padding:12px}.archFullscreen .archCanvasWrap canvas{height:55vh}.archFooter{font-size:7px}}@media(prefers-reduced-motion:reduce){.archGuideCard{transition:none}}
+/* Optional motion, list display, and collapsible inspection controls */
+.archListView{display:grid;gap:7px;margin-top:2px}.archListItem{display:flex;align-items:flex-start;gap:12px;width:100%;padding:14px;text-align:left;border:1px solid rgba(83,215,241,.16);background:rgba(5,24,31,.72);color:#dff9ff}.archListItem:hover,.archListItem.selected{border-color:rgba(96,226,249,.6);background:rgba(12,43,52,.85)}.archListDot{width:9px;height:9px;flex:0 0 9px;border-radius:50%;margin-top:5px;box-shadow:0 0 10px currentColor}.archListMain{display:grid;gap:5px;min-width:0;flex:1}.archListMain small,.archListMeta{font:8px "DM Mono",monospace;letter-spacing:.08em;color:#5c9aa7}.archListMain b{font-size:14px}.archListMain em{font-size:11px;line-height:1.6;font-style:normal;color:#83aeb8}.archListMeta{white-space:nowrap;padding-top:2px}.archCollapseButton{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;color:#75dff2}.archCollapseButton span{font:8px "DM Mono",monospace;color:#548a97}.archCanvasWrap canvas{user-select:none}.archCanvasActions button{cursor:pointer}.archFullscreen .archCanvasWrap canvas{height:min(70vh,820px)}@media(max-width:560px){.archListItem{padding:11px;gap:8px}.archListMeta{font-size:7px;white-space:normal;text-align:right}.archListMain b{font-size:12px}.archListMain em{font-size:10px}.archFullscreen .archCanvasWrap canvas{height:55vh}}
+
+/* Immersive fullscreen: use the viewport for the map only. */
+.archMapImmersive{position:fixed!important;inset:0!important;z-index:99999!important;width:100vw!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;overflow:hidden!important;box-sizing:border-box!important;padding:0!important;margin:0!important;background:#020b10!important;display:flex!important;flex-direction:column!important}.archMapImmersive .archIntro,.archMapImmersive>.archTabs,.archMapImmersive>.archToolbar,.archMapImmersive .archLegend,.archMapImmersive .archNote,.archMapImmersive .archDetail,.archMapImmersive .archFooter{display:none!important}.archMapImmersive .archWorkspace,.archMapImmersive .archFullscreenWorkspace{display:block!important;flex:1 1 auto!important;min-height:0!important;height:100%!important;width:100%!important;margin:0!important;padding:0!important}.archMapImmersive .archMapColumn{height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important}.archMapImmersive .archCanvasWrap{position:relative!important;flex:1 1 auto!important;min-height:0!important;height:100%!important;width:100%!important;border:0!important;overflow:hidden!important}.archMapImmersive .archCanvasWrap canvas{height:100%!important;min-height:0!important;width:100%!important;touch-action:none}.archMapImmersive .archCanvasActions{top:calc(env(safe-area-inset-top,0px) + 8px)!important;left:8px!important;right:8px!important;z-index:2!important;gap:6px!important}.archMapImmersive .archCanvasActions button{padding:9px 10px!important;font-size:9px!important;background:rgba(2,14,20,.94)!important}.archMapImmersive .archCanvasActions button:nth-child(7),.archMapImmersive .archCanvasActions button:nth-child(8){display:none!important}.archMapImmersive .archHint{bottom:calc(env(safe-area-inset-bottom,0px) + 10px)!important;left:10px!important;right:10px!important;z-index:2!important;font-size:9px!important}@media(max-width:560px){.archMapImmersive .archCanvasActions{top:calc(env(safe-area-inset-top,0px) + 8px)!important;left:6px!important;right:6px!important;gap:4px!important}.archMapImmersive .archCanvasActions button{padding:8px 7px!important;font-size:8px!important}.archMapImmersive .archHint{bottom:calc(env(safe-area-inset-bottom,0px) + 12px)!important;font-size:7px!important;text-align:center}}
+
+/* Touch-safe canvas and cleaner map controls */
+.archCanvasWrap canvas{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}.archCanvasWrap{isolation:isolate}.archCanvasActions{z-index:3;max-width:calc(100% - 20px)}.archCanvasActions button{white-space:nowrap}.archMapImmersive .archCanvasActions{max-height:32vh;overflow:auto;align-content:flex-start}.archMapImmersive .archCanvasActions button{font-size:clamp(8px,1.6vw,10px)}
+
+/* Crisp map typography; avoid decorative blur on interactive nodes. */
+.archCanvasWrap canvas{image-rendering:auto;backface-visibility:hidden}.archCanvasWrap{background:#020c12}.archCanvasActions button{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+
+/* Three.js/WebGL viewport */
+.archThreeHost{position:absolute;inset:0;width:100%;height:100%;min-height:280px;overflow:hidden;touch-action:none;background:#020c12}.archThreeCanvas{display:block;width:100%;height:100%;outline:none;touch-action:none}.archWebglError{padding:24px;color:#d9f8ff;font:12px/1.7 "DM Mono",monospace}.archCanvasWrap:has(.archThreeHost){min-height:360px}.archCanvasWrap .archThreeHost{position:absolute;inset:0}.archFullscreen .archCanvasWrap:has(.archThreeHost){min-height:0}.archThreeHost canvas{touch-action:none}@media(max-width:560px){.archCanvasWrap:has(.archThreeHost){min-height:340px}}
+
+/* Ensure legacy canvas sizing rules do not constrain the WebGL renderer. */
+.archCanvasWrap .archThreeCanvas{display:block;width:100%!important;height:100%!important;min-height:0!important;position:absolute;inset:0;}
+
+/* WebGL scene uses separate DOM-rendered labels and selected-node focus. */
+.archThreeHost{position:absolute;inset:0;width:100%;height:100%;min-height:280px;overflow:hidden;touch-action:none;background:#020b10}
+.archThreeCanvas{position:absolute;inset:0;display:block;width:100%!important;height:100%!important;outline:none;touch-action:none}
+.archLabelsLayer{z-index:1;pointer-events:none}
+.archWorldLabel{display:none;max-width:150px;padding:4px 7px;border:1px solid color-mix(in srgb,var(--node-colour) 60%,transparent);border-radius:3px;background:rgba(2,12,18,.95);color:#b9dce7;font:600 10px/1.3 "DM Mono",monospace;text-align:center;white-space:nowrap;transform:translate(-50%,-100%)}
+.archWorldLabel.isSelected{display:block!important;border-color:var(--node-colour);background:#08202b;color:#fff;font-size:11px}
+.archCanvasWrap:has(.archThreeHost){height:clamp(420px,65vh,780px);min-height:420px}
+.archCanvasWrap .archLabelsLayer{position:absolute!important;inset:0!important;pointer-events:none!important}
+.archCanvasWrap:has(.archThreeHost) .archCanvasActions{z-index:4}.archCanvasWrap:has(.archThreeHost) .archHint{z-index:3}
+.archMapImmersive .archCanvasWrap:has(.archThreeHost){height:100%;min-height:0}
+@media(max-width:560px){.archCanvasWrap:has(.archThreeHost){height:54vh;min-height:370px}.archWorldLabel{max-width:120px;padding:3px 5px;font-size:8px}.archWorldLabel.isSelected{font-size:9px}}
+
+/* Single full-width 3D stage; node explanations float above the scene instead of creating a split-screen layout. */
+.archWorkspace{display:block!important;width:100%;min-width:0}
+.archMapColumn{width:100%;min-width:0}
+.archCanvasWrap:has(.archThreeHost){position:relative;width:100%;height:clamp(520px,76vh,900px);min-height:480px;isolation:isolate}
+.archCanvasWrap .archThreeHost{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.archCanvasWrap .archLabelsLayer{z-index:1}
+.archCanvasWrap .archDetailFloating{position:absolute;z-index:5;top:12px;right:12px;bottom:50px;width:min(360px,37%);max-height:none;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#286777 #07151b;background:rgba(3,15,22,.94);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.38);border-color:rgba(83,215,241,.32);padding:17px}
+.archDetailFloating .archDetailTop{align-items:center;padding-bottom:10px;border-bottom:1px solid rgba(83,215,241,.14)}
+.archDetailClose{order:3;margin-left:auto;flex-shrink:0;width:28px;height:28px;border:1px solid rgba(83,215,241,.22);background:rgba(8,31,40,.9);color:#a9edf8;font-size:20px;line-height:1;cursor:pointer}
+.archDetailClose:hover{background:#103642;border-color:#70e7f9}
+.archDetailFloating h3{font-size:clamp(18px,2vw,24px);margin-top:13px}
+.archCanvasActions{max-width:calc(100% - 30px);right:12px}
+.archHint{z-index:4;padding:6px 8px;background:rgba(2,12,18,.78);width:max-content;max-width:calc(100% - 24px)}
+.archLegend,.archNote{width:100%}
+.archFullscreen .archWorkspace{display:block!important}
+.archFullscreen .archCanvasWrap:has(.archThreeHost){height:calc(100vh - 24px);min-height:0}
+.archFullscreen .archCanvasWrap .archDetailFloating{width:min(390px,38%);top:14px;right:14px;bottom:58px}
+.archCollapseButton{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;color:#75dff2;font:9px "DM Mono",monospace;letter-spacing:.08em}
+.archCollapseButton span{color:#58838d}
+@media(max-width:850px){
+ .archWorkspace{display:block!important}
+ .archCanvasWrap:has(.archThreeHost){height:70vh;min-height:500px}
+ .archCanvasWrap .archDetailFloating{width:min(340px,44%);padding:13px;bottom:48px}
+ .archDetailFloating .archIO{grid-template-columns:1fr}
+ .archDetailFloating .archRelationList button{padding:8px 6px}
+}
+@media(max-width:560px){
+ .archCanvasWrap:has(.archThreeHost){height:78vh;min-height:580px}
+ .archCanvasWrap .archDetailFloating{top:auto;left:8px;right:8px;bottom:42px;width:auto;max-height:48%;padding:12px}
+ .archDetailFloating h3{font-size:18px;margin:9px 0 6px}
+ .archDetailFloating>p{font-size:10px;line-height:1.5;margin-bottom:10px}
+ .archDetailFloating .archDetailSection{padding-top:9px;margin-top:9px}
+ .archDetailFloating .archIO{grid-template-columns:1fr 1fr;gap:6px}
+ .archDetailFloating .archIO>div{padding:7px}
+ .archDetailFloating .archIO p{font-size:9px}
+ .archCanvasActions{top:8px;left:8px;right:8px;max-width:none}
+ .archCanvasActions button{padding:6px;font-size:7px}
+ .archHint{left:8px;bottom:7px;font-size:7px}
+ .archFullscreen .archCanvasWrap:has(.archThreeHost){height:100dvh;min-height:0}
+ .archFullscreen .archCanvasWrap .archDetailFloating{left:8px;right:8px;width:auto;bottom:48px;max-height:46%}
+}
+
+
+/* Full-viewport architecture workspace: escape the site's centered dialog layout. */
+.interfaceLayer:has(.architecturePanel){
+  display:block!important;
+  padding:0!important;
+  overflow:hidden!important;
+  background:#02080d!important;
+  backdrop-filter:none!important;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  width:100vw!important;
+  max-width:none!important;
+  height:100vh!important;
+  height:100dvh!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:clamp(10px,1.5vw,22px)!important;
+  overflow:auto!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel > .modelArch{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel .archIntro{
+  padding-top:8px;
+  padding-bottom:12px;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasWrap:has(.archThreeHost){
+  width:100%!important;
+  height:clamp(480px,70dvh,900px)!important;
+  min-height:0!important;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasActions{
+  max-width:calc(100% - 20px);
+  right:10px;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel .closeInterface{
+  position:fixed!important;
+  z-index:10020!important;
+  top:8px!important;
+  right:10px!important;
+  bottom:auto!important;
+  margin:0!important;
+  padding:8px 10px!important;
+  border:1px solid rgba(83,215,241,.32)!important;
+  background:rgba(2,14,20,.92)!important;
+}
+@media(max-width:700px){
+  .interfaceLayer:has(.architecturePanel) .architecturePanel{
+    padding:8px!important;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archIntro{
+    padding:6px 2px 10px;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasWrap:has(.archThreeHost){
+    height:calc(100dvh - 230px)!important;
+    min-height:420px!important;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .closeInterface{
+    top:6px!important;
+    right:6px!important;
+    padding:6px 8px!important;
+  }
+}
+@media(max-width:560px){
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasWrap:has(.archThreeHost){
+    height:calc(100dvh - 250px)!important;
+    min-height:390px!important;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasActions{
+    top:8px!important;
+    left:6px!important;
+    right:6px!important;
+    padding-right:58px;
+    max-height:25%;
+    overflow:auto;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasActions button{
+    font-size:7px;
+    padding:6px 7px;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archDetailFloating{
+    width:min(340px,calc(100% - 16px))!important;
+    left:auto!important;
+    right:8px!important;
+    top:8px!important;
+    bottom:42px!important;
+    max-height:calc(100% - 58px)!important;
+  }
+}
+
+
+/* Dedicated architecture screen, not a half-width/centered modal. */
+.architectureScreen{position:fixed;inset:0;z-index:100;overflow:auto;width:100vw;height:100vh;height:100dvh;padding:18px clamp(12px,2vw,30px) 24px;background:#020b10;color:#dff9ff}
+.architectureExit{position:fixed;z-index:110;top:10px;right:12px;padding:10px 12px;border:1px solid rgba(83,215,241,.35);background:rgba(2,14,20,.94);color:#a9edf8;font:9px "DM Mono",monospace;letter-spacing:.08em}
+.architectureScreen>.modelArch{width:100%;max-width:none;min-width:0}
+.architectureScreen .archIntro{padding-top:14px;padding-right:145px}
+.architectureScreen .archWorkspace{display:block!important;width:100%!important;min-width:0!important}
+.architectureScreen .archMapColumn{width:100%!important;min-width:0!important}
+.architectureScreen .archCanvasWrap:has(.archThreeHost){width:100%!important;height:clamp(500px,68dvh,860px)!important;min-height:0!important}
+.architectureScreen .archCanvasWrap .archThreeHost{position:absolute;inset:0;width:100%;height:100%}
+.architectureScreen .archToolbar{padding:10px;border:1px solid rgba(83,215,241,.14);background:rgba(4,19,25,.66)}
+.architectureScreen .archCanvasActions{right:10px;max-width:calc(100% - 20px);max-height:25%;overflow:auto;align-content:flex-start}
+.architectureScreen .archDetailFloating{width:min(370px,42%);top:12px;right:12px;bottom:48px;max-height:none;overflow:auto;resize:both;min-width:240px;min-height:180px;overscroll-behavior:contain;touch-action:pan-y;pointer-events:auto}
+.architectureScreen .archDetailFloating *{max-width:100%}
+.architectureScreen .archDetailFloating .archRelationList{overflow:visible}
+.architectureScreen .archListView{width:100%}
+@media(max-width:700px){
+ .architectureScreen{padding:10px 8px 18px}
+ .architectureScreen .archIntro{padding:8px 115px 12px 2px}
+ .architectureScreen .archIntro h2{font-size:28px}
+ .architectureScreen .archCanvasWrap:has(.archThreeHost){height:calc(100dvh - 255px)!important;min-height:390px!important}
+ .architectureScreen .archDetailFloating{width:min(340px,calc(100% - 16px));min-width:0;resize:none;max-height:calc(100% - 58px);padding:12px}
+ .architectureScreen .archCanvasActions{left:6px;right:6px;top:8px;padding-right:112px;max-height:25%;gap:4px}
+ .architectureScreen .archCanvasActions button{font-size:7px;padding:6px}
+ .architectureExit{top:7px;right:7px;padding:8px;font-size:8px}
+}
