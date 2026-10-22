@@ -28,3 +28,45 @@
 .archCanvasWrap:has(.archThreeHost) .archCanvasActions{z-index:4}.archCanvasWrap:has(.archThreeHost) .archHint{z-index:3}
 .archMapImmersive .archCanvasWrap:has(.archThreeHost){height:100%;min-height:0}
 @media(max-width:560px){.archCanvasWrap:has(.archThreeHost){height:54vh;min-height:370px}.archWorldLabel{max-width:120px;padding:3px 5px;font-size:8px}.archWorldLabel.isSelected{font-size:9px}}
+
+/* Single full-width 3D stage; node explanations float above the scene instead of creating a split-screen layout. */
+.archWorkspace{display:block!important;width:100%;min-width:0}
+.archMapColumn{width:100%;min-width:0}
+.archCanvasWrap:has(.archThreeHost){position:relative;width:100%;height:clamp(520px,76vh,900px);min-height:480px;isolation:isolate}
+.archCanvasWrap .archThreeHost{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.archCanvasWrap .archLabelsLayer{z-index:1}
+.archCanvasWrap .archDetailFloating{position:absolute;z-index:5;top:12px;right:12px;bottom:50px;width:min(360px,37%);max-height:none;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#286777 #07151b;background:rgba(3,15,22,.94);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.38);border-color:rgba(83,215,241,.32);padding:17px}
+.archDetailFloating .archDetailTop{align-items:center;padding-bottom:10px;border-bottom:1px solid rgba(83,215,241,.14)}
+.archDetailClose{order:3;margin-left:auto;flex-shrink:0;width:28px;height:28px;border:1px solid rgba(83,215,241,.22);background:rgba(8,31,40,.9);color:#a9edf8;font-size:20px;line-height:1;cursor:pointer}
+.archDetailClose:hover{background:#103642;border-color:#70e7f9}
+.archDetailFloating h3{font-size:clamp(18px,2vw,24px);margin-top:13px}
+.archCanvasActions{max-width:calc(100% - 30px);right:12px}
+.archHint{z-index:4;padding:6px 8px;background:rgba(2,12,18,.78);width:max-content;max-width:calc(100% - 24px)}
+.archLegend,.archNote{width:100%}
+.archFullscreen .archWorkspace{display:block!important}
+.archFullscreen .archCanvasWrap:has(.archThreeHost){height:calc(100vh - 24px);min-height:0}
+.archFullscreen .archCanvasWrap .archDetailFloating{width:min(390px,38%);top:14px;right:14px;bottom:58px}
+.archCollapseButton{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;color:#75dff2;font:9px "DM Mono",monospace;letter-spacing:.08em}
+.archCollapseButton span{color:#58838d}
+@media(max-width:850px){
+ .archWorkspace{display:block!important}
+ .archCanvasWrap:has(.archThreeHost){height:70vh;min-height:500px}
+ .archCanvasWrap .archDetailFloating{width:min(340px,44%);padding:13px;bottom:48px}
+ .archDetailFloating .archIO{grid-template-columns:1fr}
+ .archDetailFloating .archRelationList button{padding:8px 6px}
+}
+@media(max-width:560px){
+ .archCanvasWrap:has(.archThreeHost){height:78vh;min-height:580px}
+ .archCanvasWrap .archDetailFloating{top:auto;left:8px;right:8px;bottom:42px;width:auto;max-height:48%;padding:12px}
+ .archDetailFloating h3{font-size:18px;margin:9px 0 6px}
+ .archDetailFloating>p{font-size:10px;line-height:1.5;margin-bottom:10px}
+ .archDetailFloating .archDetailSection{padding-top:9px;margin-top:9px}
+ .archDetailFloating .archIO{grid-template-columns:1fr 1fr;gap:6px}
+ .archDetailFloating .archIO>div{padding:7px}
+ .archDetailFloating .archIO p{font-size:9px}
+ .archCanvasActions{top:8px;left:8px;right:8px;max-width:none}
+ .archCanvasActions button{padding:6px;font-size:7px}
+ .archHint{left:8px;bottom:7px;font-size:7px}
+ .archFullscreen .archCanvasWrap:has(.archThreeHost){height:100dvh;min-height:0}
+ .archFullscreen .archCanvasWrap .archDetailFloating{left:8px;right:8px;width:auto;bottom:48px;max-height:46%}
+}
