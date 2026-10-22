@@ -71,7 +71,7 @@ export default function ModelArchitecture(){
  useEffect(()=>{autoRotateRef.current=autoRotate;},[autoRotate]);
  useEffect(()=>{
   const host=hostRef.current;if(!host)return;
-  let renderer,labelRenderer,controls,resizeObserver,raf,disposed=false,downPoint=null,dragging=false,lastPointer=null;
+  let renderer,labelRenderer,controls,resizeObserver,raf,disposed=false,downPoint=null,dragging=false,lastPointer=null;const touchPointers=new Set();
   const scene=new THREE.Scene();scene.background=new THREE.Color("#020b10");
   const camera=new THREE.PerspectiveCamera(42,1,.1,200);camera.position.set(0,1.2,13);
   const root=new THREE.Group();scene.add(root);
@@ -114,10 +114,10 @@ export default function ModelArchitecture(){
    edgeObjects.forEach(o=>{if(!o.userData.edge)return;const e=o.userData.edge,active=e.from===id||e.to===id;o.material.opacity=active?.94:.13;});
   };
   applySelection(selectedRef.current);
-  const onDown=e=>{if(e.button!==0)return;downPoint={x:e.clientX,y:e.clientY};lastPointer={x:e.clientX,y:e.clientY};dragging=false;};
-  const onMove=e=>{if(!downPoint||!lastPointer)return;const dx=e.clientX-lastPointer.x,dy=e.clientY-lastPointer.y;if(!dragging&&Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>5)dragging=true;if(dragging){root.rotation.y+=dx*.008;root.rotation.x=Math.max(-1.15,Math.min(1.15,root.rotation.x+dy*.006));}lastPointer={x:e.clientX,y:e.clientY};};
-  const onUp=e=>{if(!downPoint)return;const moved=dragging||Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>6;if(!moved){const rect=renderer.domElement.getBoundingClientRect();pointer.x=(e.clientX-rect.left)/rect.width*2-1;pointer.y=-(e.clientY-rect.top)/rect.height*2+1;raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects([...nodeObjects.values()].map(o=>o.sphere),false)[0];if(hit)setSelected(hit.object.userData.nodeId);}downPoint=null;lastPointer=null;dragging=false;};
-  const cancelPointer=()=>{downPoint=null;lastPointer=null;dragging=false;};renderer.domElement.addEventListener("pointerdown",onDown);renderer.domElement.addEventListener("pointermove",onMove);renderer.domElement.addEventListener("pointerup",onUp);renderer.domElement.addEventListener("pointercancel",cancelPointer);
+  const onDown=e=>{if(e.pointerType==="touch"){touchPointers.add(e.pointerId);if(touchPointers.size>1){downPoint=null;lastPointer=null;dragging=false;return;}}if(e.button!==0)return;downPoint={x:e.clientX,y:e.clientY};lastPointer={x:e.clientX,y:e.clientY};dragging=false;};
+  const onMove=e=>{if(e.pointerType==="touch"&&touchPointers.size>1)return;if(!downPoint||!lastPointer)return;const dx=e.clientX-lastPointer.x,dy=e.clientY-lastPointer.y;if(!dragging&&Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>5)dragging=true;if(dragging){root.rotation.y+=dx*.008;root.rotation.x=Math.max(-1.15,Math.min(1.15,root.rotation.x+dy*.006));}lastPointer={x:e.clientX,y:e.clientY};};
+  const onUp=e=>{if(e.pointerType==="touch")touchPointers.delete(e.pointerId);if(!downPoint)return;const moved=dragging||Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y)>6;if(!moved){const rect=renderer.domElement.getBoundingClientRect();pointer.x=(e.clientX-rect.left)/rect.width*2-1;pointer.y=-(e.clientY-rect.top)/rect.height*2+1;raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects([...nodeObjects.values()].map(o=>o.sphere),false)[0];if(hit)setSelected(hit.object.userData.nodeId);}downPoint=null;lastPointer=null;dragging=false;};
+  const cancelPointer=e=>{if(e?.pointerType==="touch")touchPointers.delete(e.pointerId);downPoint=null;lastPointer=null;dragging=false;};renderer.domElement.addEventListener("pointerdown",onDown);renderer.domElement.addEventListener("pointermove",onMove);renderer.domElement.addEventListener("pointerup",onUp);renderer.domElement.addEventListener("pointercancel",cancelPointer);
   labelRenderer=new CSS2DRenderer();labelRenderer.domElement.className="archLabelsLayer";Object.assign(labelRenderer.domElement.style,{position:"absolute",inset:"0",overflow:"hidden",pointerEvents:"none"});host.appendChild(labelRenderer.domElement);
   const resize=()=>{if(disposed)return;const w=Math.max(host.clientWidth,1),h=Math.max(host.clientHeight,1);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);labelRenderer.setSize(w,h);};
   resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);resize();let last=0;
