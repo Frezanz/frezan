@@ -79,7 +79,7 @@ export default function ModelArchitecture(){
   try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:"high-performance"});}catch(e){host.innerHTML='<div class="archWebglError">WebGL is unavailable. Enable hardware acceleration or use a browser with WebGL support.</div>';return;}
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
   renderer.domElement.className="archThreeCanvas";renderer.domElement.setAttribute("aria-label","Interactive Three.js WebGL architecture scene");renderer.domElement.style.touchAction="none";host.appendChild(renderer.domElement);
-  controls=new OrbitControls(camera,renderer.domElement);controls.enableRotate=false;controls.enableDamping=true;controls.dampingFactor=.075;controls.enablePan=true;controls.screenSpacePanning=true;controls.minDistance=3;controls.maxDistance=38;controls.zoomSpeed=.9;controls.panSpeed=.65;controls.touches.ONE=THREE.TOUCH.ROTATE;controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;controls.target.set(0,0,0);
+  controls=new OrbitControls(camera,renderer.domElement);controls.enableRotate=false;controls.enableDamping=true;controls.dampingFactor=.075;controls.enablePan=false;controls.screenSpacePanning=true;controls.minDistance=3;controls.maxDistance=38;controls.zoomSpeed=.9;controls.panSpeed=.65;controls.touches.ONE=THREE.TOUCH.ROTATE;controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;controls.target.set(0,0,0);
   if(viewRef.current){camera.position.copy(viewRef.current.position);controls.target.copy(viewRef.current.target);}
   scene.add(new THREE.HemisphereLight(0xa7e8f3,0x08131d,2));
   const keyLight=new THREE.DirectionalLight(0xb2f3ff,3.3);keyLight.position.set(4,7,8);scene.add(keyLight);
@@ -158,9 +158,9 @@ export default function ModelArchitecture(){
     const panelW=Math.min(panel.offsetWidth||320,Math.max(220,w-24)),panelH=panel.offsetHeight||300;
     const rightSpace=w-anchorX,leftSpace=anchorX;
     const placeRight=rightSpace>=panelW+34||(rightSpace>=leftSpace&&rightSpace>panelW*.62);
-    const desiredX=placeRight?anchorX+24:anchorX-panelW-24;
+    const desiredX=placeRight?anchorX+28:anchorX-panelW-28;
     const left=Math.max(10,Math.min(w-panelW-10,desiredX));
-    const top=Math.max(10,Math.min(h-panelH-10,anchorY-Math.min(panelH*.16,52)));
+    const top=Math.max(10,Math.min(h-panelH-10,anchorY-panelH*.5));
     panel.style.setProperty("--detail-left",left+"px");panel.style.setProperty("--detail-top",top+"px");
     panel.style.setProperty("--anchor-x",anchorX+"px");panel.style.setProperty("--anchor-y",anchorY+"px");
     const visible=projected.z<1&&Math.abs(projected.x)<1&&Math.abs(projected.y)<1;
