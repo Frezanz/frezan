@@ -69,3 +69,9 @@
 .archTopbar--minimal .archControlsToggle{position:fixed!important;z-index:121;top:10px;right:174px;white-space:nowrap;padding:9px 10px!important;font-size:8px!important}
 .archFullscreenWorkspace>.archWorkspace{margin-top:0!important}
 @media(max-width:700px){.archTopbar--minimal .archControlsToggle{top:7px;right:158px;padding:7px 6px!important;font-size:7px!important;letter-spacing:0}}
+/* Align all primary controls on a single compact row, including the two header actions. */
+.archTopbar--minimal .archControlsToggle{top:7px;right:158px;height:31px;box-sizing:border-box;display:flex;align-items:center}
+.archToolbarActions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;width:100%}
+.archToolbarActions button{min-height:32px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
+.archToolbar{align-content:flex-start}
+@media(max-width:700px){.archTopbar--minimal .archControlsToggle{top:7px;right:158px;height:28px;padding:6px 6px!important}.archToolbarActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.archToolbarActions button{width:100%;min-width:0;min-height:34px;padding:6px 4px;font-size:8px!important}.archFullscreenWorkspace>.archWorkspace{min-height:0}}
