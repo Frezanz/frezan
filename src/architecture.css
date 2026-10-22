@@ -195,3 +195,33 @@
  .architectureScreen .archCanvasActions button{font-size:7px;padding:6px}
  .architectureExit{top:7px;right:7px;padding:8px;font-size:8px}
 }
+
+
+/* Final full-screen workspace layout: the map fills the available viewport without page scrolling. */
+.architectureScreen{display:flex;flex-direction:column;overflow:hidden!important;height:100dvh;padding:8px!important}
+.architectureScreen>.modelArch{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.architectureScreen .archToolbar{flex:0 0 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px;margin:0 0 6px}
+.architectureScreen .archSearch{flex:1 1 230px;min-width:150px}
+.architectureScreen .archSelect{flex:0 1 180px;min-width:120px}
+.architectureScreen .archWorkspace{flex:1 1 auto;min-height:0;overflow:hidden}
+.architectureScreen .archMapColumn{height:100%;min-height:0}
+.architectureScreen .archCanvasWrap:has(.archThreeHost){height:100%!important;min-height:0!important;width:100%;position:relative;overflow:hidden}
+.architectureScreen .archThreeHost{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.architectureScreen .archCanvasActions{left:10px;right:auto;top:10px;bottom:auto;display:flex;flex-wrap:wrap;gap:5px;max-width:min(520px,calc(100% - 20px));max-height:22%;overflow:auto;padding:7px;border:1px solid rgba(83,215,241,.16);background:rgba(2,12,18,.82);backdrop-filter:blur(8px)}
+.architectureScreen .archCanvasActions button{font-size:9px;padding:7px 9px}
+.architectureScreen .archDetailFloating{position:absolute!important;left:var(--detail-left,12px)!important;top:var(--detail-top,12px)!important;right:auto!important;bottom:auto!important;width:min(330px,42%)!important;max-height:calc(100% - 24px)!important;min-width:220px;min-height:0;overflow-y:auto;resize:both;overscroll-behavior:contain;touch-action:pan-y;z-index:6;background:rgba(3,15,22,.96);box-shadow:0 12px 40px rgba(0,0,0,.42)}
+.architectureScreen .archDetailFloating[style*="visibility: hidden"]{pointer-events:none}
+.architectureScreen .archHint{left:10px;right:auto;bottom:8px;z-index:4;max-width:calc(100% - 20px)}
+.architectureScreen .archListView{flex:1;min-height:0;overflow:auto}
+.architectureScreen .archFullscreenWorkspace{height:100%}
+@media(max-width:700px){
+ .architectureScreen{padding:6px!important}
+ .architectureScreen .archToolbar{gap:5px;padding:6px}
+ .architectureScreen .archSearch{flex-basis:100%}
+ .architectureScreen .archSelect{flex:1 1 30%;min-width:0}
+ .architectureScreen .archSelect select{max-width:100%;font-size:10px}
+ .architectureScreen .archCanvasActions{max-width:calc(100% - 12px);left:6px;top:6px;max-height:25%;padding:5px}
+ .architectureScreen .archCanvasActions button{font-size:8px;padding:6px}
+ .architectureScreen .archDetailFloating{width:min(290px,calc(100% - 20px))!important;min-width:0;max-height:55%!important;resize:none}
+ .architectureScreen .archHint{left:6px;bottom:6px;font-size:8px}
+}
