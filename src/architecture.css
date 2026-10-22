@@ -190,7 +190,7 @@
  .architectureScreen .archIntro{padding:8px 115px 12px 2px}
  .architectureScreen .archIntro h2{font-size:28px}
  .architectureScreen .archCanvasWrap:has(.archThreeHost){height:calc(100dvh - 255px)!important;min-height:390px!important}
- .architectureScreen .archDetailFloating{width:min(340px,calc(100% - 16px));min-width:0;resize:none;left:auto;right:8px;top:8px;bottom:42px;max-height:calc(100% - 58px);padding:12px}
+ .architectureScreen .archDetailFloating{width:min(340px,calc(100% - 16px));min-width:0;resize:none;max-height:calc(100% - 58px);padding:12px}
  .architectureScreen .archCanvasActions{left:6px;right:6px;top:8px;padding-right:112px;max-height:25%;gap:4px}
  .architectureScreen .archCanvasActions button{font-size:7px;padding:6px}
  .architectureExit{top:7px;right:7px;padding:8px;font-size:8px}
