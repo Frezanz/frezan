@@ -70,3 +70,101 @@
  .archFullscreen .archCanvasWrap:has(.archThreeHost){height:100dvh;min-height:0}
  .archFullscreen .archCanvasWrap .archDetailFloating{left:8px;right:8px;width:auto;bottom:48px;max-height:46%}
 }
+
+
+/* Full-viewport architecture workspace: escape the site's centered dialog layout. */
+.interfaceLayer:has(.architecturePanel){
+  display:block!important;
+  padding:0!important;
+  overflow:hidden!important;
+  background:#02080d!important;
+  backdrop-filter:none!important;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  width:100vw!important;
+  max-width:none!important;
+  height:100vh!important;
+  height:100dvh!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:clamp(10px,1.5vw,22px)!important;
+  overflow:auto!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel > .modelArch{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel .archIntro{
+  padding-top:8px;
+  padding-bottom:12px;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasWrap:has(.archThreeHost){
+  width:100%!important;
+  height:clamp(480px,70dvh,900px)!important;
+  min-height:0!important;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasActions{
+  max-width:calc(100% - 20px);
+  right:10px;
+}
+.interfaceLayer:has(.architecturePanel) .architecturePanel .closeInterface{
+  position:fixed!important;
+  z-index:10020!important;
+  top:8px!important;
+  right:10px!important;
+  bottom:auto!important;
+  margin:0!important;
+  padding:8px 10px!important;
+  border:1px solid rgba(83,215,241,.32)!important;
+  background:rgba(2,14,20,.92)!important;
+}
+@media(max-width:700px){
+  .interfaceLayer:has(.architecturePanel) .architecturePanel{
+    padding:8px!important;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archIntro{
+    padding:6px 2px 10px;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasWrap:has(.archThreeHost){
+    height:calc(100dvh - 230px)!important;
+    min-height:420px!important;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .closeInterface{
+    top:6px!important;
+    right:6px!important;
+    padding:6px 8px!important;
+  }
+}
+@media(max-width:560px){
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasWrap:has(.archThreeHost){
+    height:calc(100dvh - 250px)!important;
+    min-height:390px!important;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasActions{
+    top:8px!important;
+    left:6px!important;
+    right:6px!important;
+    padding-right:58px;
+    max-height:25%;
+    overflow:auto;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archCanvasActions button{
+    font-size:7px;
+    padding:6px 7px;
+  }
+  .interfaceLayer:has(.architecturePanel) .architecturePanel .archDetailFloating{
+    width:min(340px,calc(100% - 16px))!important;
+    left:auto!important;
+    right:8px!important;
+    top:8px!important;
+    bottom:42px!important;
+    max-height:calc(100% - 58px)!important;
+  }
+}
