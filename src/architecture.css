@@ -193,14 +193,14 @@
 /* Final mobile polish: safe inset for header actions and normal-sized search label. */
 @media (max-width: 700px) {
   .architectureScreen .architectureExit {
-    top: 38px !important;
+    top: 6px !important;
     right: 18px !important;
     width: 30px !important;
     height: 30px !important;
     box-sizing: border-box !important;
   }
   .architectureScreen .archTopbar--minimal .archControlsToggle {
-    top: 38px !important;
+    top: 6px !important;
     right: 74px !important;
     height: 30px !important;
     min-width: 0 !important;
