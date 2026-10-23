@@ -39,7 +39,7 @@ function makeNodeMaterial(selected=false,group=""){
 export default function ModelArchitecture(){
   const hostRef=useRef(null),sceneRef=useRef(null),nodesRef=useRef(new Map()),rootRef=useRef(null),controlsRef=useRef(null),cameraRef=useRef(null),selectedRef=useRef(null);
   const [selected,setSelected]=useState(null),[tab,setTab]=useState("Overview"),[relation,setRelation]=useState("all"),[query,setQuery]=useState(""),[view,setView]=useState("map"),[showLabels,setShowLabels]=useState(true);
-  const [notice,setNotice]=useState("");const [controlsExpanded,setControlsExpanded]=useState(true);const [relationMenuOpen,setRelationMenuOpen]=useState(false);const [inspectorZoom,setInspectorZoom]=useState(1);const [inspectorOffset,setInspectorOffset]=useState({x:0,y:0});const inspectorDragRef=useRef(null);const [controlMode,setControlMode]=useState("camera");const controlModeRef=useRef("camera");const tabRef=useRef(tab);useEffect(()=>{tabRef.current=tab;},[tab]);
+  const [notice,setNotice]=useState("");const [controlsExpanded,setControlsExpanded]=useState(false);const [relationMenuOpen,setRelationMenuOpen]=useState(false);const [inspectorZoom,setInspectorZoom]=useState(1);const [inspectorOffset,setInspectorOffset]=useState({x:0,y:0});const inspectorDragRef=useRef(null);const [controlMode,setControlMode]=useState("camera");const controlModeRef=useRef("camera");const tabRef=useRef(tab);useEffect(()=>{tabRef.current=tab;},[tab]);
   const activeNode= NODES.find(n=>n.id===selected)||null;
   const filteredNodes=useMemo(()=>NODES.filter(n=>!query||[n.label,n.desc,n.group,...n.details].join(" ").toLowerCase().includes(query.toLowerCase())),[query]);
   const visibleIds=useMemo(()=>new Set(filteredNodes.map(n=>n.id)),[filteredNodes]);
