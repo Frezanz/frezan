@@ -120,3 +120,39 @@
  .architectureScreen .archToolbar .archSearch input{font-size:8px}
  .architectureScreen .archToolbar .archSelect select{font-size:8px;padding:6px 4px}
 }
+
+
+/* Keep the mobile header controls inside the viewport and clear of the navigation arrow. */
+.archTopbar--minimal .archControlsToggle{
+  position:fixed!important;z-index:121;top:calc(8px + env(safe-area-inset-top));right:calc(64px + env(safe-area-inset-right));
+  max-width:calc(100vw - 112px);box-sizing:border-box;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+@media(max-width:700px){
+  .archTopbar--minimal .archControlsToggle{top:calc(7px + env(safe-area-inset-top));right:calc(64px + env(safe-area-inset-right));height:30px;padding:6px 8px!important;font-size:8px!important}
+}
+/* Branded relation picker: avoid Android Chrome's oversized native select sheet. */
+.architectureScreen .archRelationPicker{position:relative;z-index:45;gap:4px}
+.architectureScreen .archRelationCaption{display:block;color:#789ba5;font:7px 'DM Mono',monospace;letter-spacing:.12em}
+.architectureScreen .archRelationTrigger{
+  display:flex;align-items:center;justify-content:space-between;gap:5px;width:100%;min-width:0;
+  border:1px solid rgba(93,220,241,.42);border-radius:4px;background:rgba(4,23,31,.96);color:#dff9ff;
+  padding:8px 7px;font:9px 'DM Mono',monospace;text-align:left;cursor:pointer
+}
+.architectureScreen .archRelationTrigger>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.architectureScreen .archRelationChevron{color:#6ee8ff;flex:none}
+.architectureScreen .archRelationMenu{
+  position:static;z-index:140;display:flex;flex-direction:column;
+  padding:4px;border:1px solid rgba(93,220,241,.5);border-radius:6px;background:rgba(3,14,21,.98);
+  box-shadow:0 10px 28px rgba(0,0,0,.55),0 0 18px rgba(20,170,204,.09);backdrop-filter:blur(16px);max-height:220px;overflow-y:auto;margin-top:4px
+}
+.architectureScreen .archRelationMenu button{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;min-height:32px;padding:7px 6px;
+  border:1px solid transparent;border-radius:3px;background:transparent;color:#b6d3da;font:8px 'DM Mono',monospace;text-align:left;cursor:pointer
+}
+.architectureScreen .archRelationMenu button.isSelected{border-color:rgba(93,220,241,.4);background:rgba(42,176,202,.14);color:#e7fbff}
+.architectureScreen .archRelationCheck{color:#6ee8ff;font-size:10px}
+.architectureScreen .archRelationMenu button:focus-visible,.architectureScreen .archRelationTrigger:focus-visible{outline:1px solid #6ee8ff;outline-offset:2px}
+@media(max-width:700px){
+ .architectureScreen .archRelationTrigger{padding:7px 5px;font-size:8px}
+ .architectureScreen .archRelationMenu button{min-height:30px;padding:6px 5px;font-size:7px}
+}
