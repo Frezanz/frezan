@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import ModelArchitecture from "./ModelArchitecture.jsx";
+import { MoreIndex, MoreDestination } from "./MoreExperience.jsx";
 import "./styles.css";
 
 const links = [
@@ -108,14 +109,9 @@ function App() {
               </>
             )}
 
-            {panel === "more" && (
-              <>
-                <div className="panelHeader"><span>MORE / EXPLORATION</span><b>FREZANZ / KNOWLEDGE SPACE</b></div>
-                <div className="moreIntro"><span>ADDITIONAL SYSTEMS</span><h2>More to explore.</h2><p>Reference spaces and interactive tools that extend the personal interface.</p></div>
-                <nav className="moreNavList"><button onClick={() => openPanel("modelArchitecture")}><span className="moreNumber">01</span><span><strong>MODEL ARCHITECTURE</strong><small>Interactive 3D map · layers · dependencies · relations</small></span><em>↗</em></button></nav>
-              </>
-            )}
+            {panel === "more" && <MoreIndex onOpen={openPanel} />}
             {panel === "modelArchitecture" && <ModelArchitecture />}
+            {["relationalFramework", "cognitiveSystems", "researchHypotheses", "projectsExperiments", "knowledgeArchive"].includes(panel) && <MoreDestination panel={panel} onOpen={openPanel} onBack={() => openPanel("more")} />}
 
             {panel === "about" && (
               <>

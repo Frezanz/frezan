@@ -68,6 +68,23 @@ Cross-cutting infrastructure for scheduling, typed data flow, dependency and eve
 - **Interaction:** user actions and controls connect to the underlying system.
 - **External I/O:** information and authorized actions flow between the architecture and external tools or environments.
 
+### Interactive map encoding
+
+The visual explorer uses explicit edge categories so its filters match the relationship shown on the map:
+
+- `foundation` — representational primitives or shared foundations.
+- `execution` — scheduled or performed executable work.
+- `data` — structured inputs, results, observations, or outputs moving between components.
+- `dependency` — a component relies on a definition, capability, or contract supplied by another.
+- `knowledge` — retrieval of stored context or knowledge.
+- `control` — coordination or influence over processing.
+- `feedback` — results or proposed changes returned for evaluation and revision.
+- `observation` — execution traces or diagnostic evidence made inspectable.
+- `interaction` — user input or interface actions passed to the system.
+- `external` — requests to external tools or environments.
+
+These labels describe intended relationships in the proposal. They are not runtime telemetry and do not imply that the connected components have already been implemented.
+
 ## Integrated operation
 
 The system is event-driven and persistent. A user action, observation, formula result or internal condition can trigger relevant processes. A result can update representations, knowledge or state, activate dependent formulae, or be shown in Layer 7. Not every task uses every layer. The runtime records relevant events and coordinates execution.

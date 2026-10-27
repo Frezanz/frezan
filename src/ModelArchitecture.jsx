@@ -19,17 +19,24 @@ const NODES = [
   {id:"external",label:"EXTERNAL WORLD",short:"TOOLS",group:"Integration",pos:[2.55,1.0,1.55],desc:"External information sources, APIs, software tools, devices and environments accessed through controlled interfaces.",input:"Requests, permissions and external observations.",output:"Tool results, actions and validated external data.",details:["Tool calls and external observations","Simulation or real-world actions where supported","Permissions, validation and result ingestion"]}
 ];
 const EDGES = [
-  ...["formulae","intelligence","knowledge","creativity","maintenance","output"].map((id,i)=>({source:["environment","formulae","intelligence","knowledge","creativity","maintenance"][i],target:id,type:"execution",label:"execution"})),
-  {source:"environment",target:"representations",type:"data",label:"represents"},{source:"formulae",target:"registry",type:"dependency",label:"discovers"},
-  {source:"intelligence",target:"store",type:"knowledge",label:"retrieves"},{source:"knowledge",target:"store",type:"data",label:"persists"},
-  {source:"maintenance",target:"traces",type:"feedback",label:"inspects"},{source:"runtime",target:"formulae",type:"execution",label:"schedules"},
-  {source:"runtime",target:"intelligence",type:"execution",label:"coordinates"},{source:"runtime",target:"output",type:"data",label:"streams"},
-  {source:"intelligence",target:"external",type:"dependency",label:"invokes"},{source:"external",target:"knowledge",type:"data",label:"returns"},
-  {source:"creativity",target:"intelligence",type:"feedback",label:"proposes"},{source:"output",target:"intelligence",type:"feedback",label:"user input"},
-  {source:"traces",target:"runtime",type:"feedback",label:"observes"},{source:"registry",target:"runtime",type:"dependency",label:"contracts"},
-  {source:"representations",target:"formulae",type:"data",label:"input data"}
+  {source:"environment",target:"representations",type:"foundation",label:"defines primitives"},
+  {source:"representations",target:"formulae",type:"data",label:"supplies structured inputs"},
+  {source:"registry",target:"formulae",type:"dependency",label:"provides formula definitions"},
+  {source:"runtime",target:"formulae",type:"execution",label:"schedules execution"},
+  {source:"runtime",target:"intelligence",type:"control",label:"coordinates processing"},
+  {source:"intelligence",target:"knowledge",type:"knowledge",label:"retrieves relevant context"},
+  {source:"knowledge",target:"store",type:"data",label:"persists knowledge updates"},
+  {source:"store",target:"knowledge",type:"knowledge",label:"returns stored context"},
+  {source:"creativity",target:"intelligence",type:"feedback",label:"proposes alternatives"},
+  {source:"intelligence",target:"external",type:"external",label:"requests external operation"},
+  {source:"external",target:"knowledge",type:"data",label:"returns observations"},
+  {source:"runtime",target:"traces",type:"observation",label:"records execution events"},
+  {source:"traces",target:"maintenance",type:"observation",label:"provides diagnostic evidence"},
+  {source:"maintenance",target:"runtime",type:"feedback",label:"proposes validated changes"},
+  {source:"intelligence",target:"output",type:"data",label:"produces response or view"},
+  {source:"output",target:"intelligence",type:"interaction",label:"passes user input"}
 ];
-const RELATIONS = [{id:"all",label:"All relations"},{id:"execution",label:"Execution"},{id:"data",label:"Data flow"},{id:"dependency",label:"Dependencies"},{id:"knowledge",label:"Knowledge"},{id:"feedback",label:"Feedback"}];
+const RELATIONS = [{id:"all",label:"All relations"},{id:"foundation",label:"Foundation"},{id:"execution",label:"Execution"},{id:"data",label:"Data flow"},{id:"dependency",label:"Dependencies"},{id:"knowledge",label:"Knowledge"},{id:"control",label:"Control"},{id:"feedback",label:"Feedback"},{id:"observation",label:"Observation"},{id:"interaction",label:"Interaction"},{id:"external",label:"External I/O"}];
 
 function makeNodeMaterial(selected=false,group=""){
   const colors={Foundation:0x65e7ff,Execution:0x4fb8ff,Reasoning:0x9c8cff,Knowledge:0x64e0bd,Exploration:0xffb86b,Supervision:0xff8b9a,Interface:0xb0c8d0,Infrastructure:0x75e6ff,Integration:0xffd66b};
@@ -60,7 +67,7 @@ export default function ModelArchitecture(){
       const label=document.createElement("div");label.className="arch3dLabel";label.textContent=n.short;label.dataset.node=n.id;label.style.display=showLabels?"block":"none";const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture((()=>{const c=document.createElement("canvas");c.width=256;c.height=64;const x=c.getContext("2d");x.font="500 16px monospace";x.fillStyle="#a9eaf5";x.textAlign="center";x.fillText(n.short,128,36);return c;})()),transparent:true,depthTest:false}));sprite.scale.set(1.15,.29,1);sprite.position.set(0,.31,0);sprite.userData.baseScale=new THREE.Vector2(1.15,.29);group.add(sprite);
       root.add(group);nodeMap.set(n.id,{data:n,group,mesh,hitMesh,halo,sprite});});
     const lineObjects=[];
-    const addLine=(edge)=>{const a=nodeMap.get(edge.source)?.data.pos,b=nodeMap.get(edge.target)?.data.pos;if(!a||!b)return;const start=new THREE.Vector3(...a),end=new THREE.Vector3(...b);const dir=end.clone().sub(start);const midpoint=start.clone().add(end).multiplyScalar(.5);midpoint.y+=.12+Math.min(.25,dir.length()*.035);const curve=new THREE.QuadraticBezierCurve3(start,midpoint,end);const points=curve.getPoints(20);const arrowEnd=curve.getPoint(.91);const tangent=curve.getTangent(.91);const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),new THREE.LineBasicMaterial({color:edge.type==="feedback"?0xf6b66b:edge.type==="dependency"?0x7c9dff:edge.type==="data"?0x56e0c2:0x3298b7,transparent:true,opacity:.5}));line.userData.edge=edge;root.add(line);lineObjects.push({line,edge});const arrow=new THREE.Mesh(new THREE.ConeGeometry(.055,.16,8),new THREE.MeshBasicMaterial({color:edge.type==="feedback"?0xf6b66b:0x67dff3}));arrow.position.copy(arrowEnd);arrow.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),tangent.normalize());root.add(arrow);lineObjects.push({line:arrow,edge});};
+    const addLine=(edge)=>{const a=nodeMap.get(edge.source)?.data.pos,b=nodeMap.get(edge.target)?.data.pos;if(!a||!b)return;const start=new THREE.Vector3(...a),end=new THREE.Vector3(...b);const dir=end.clone().sub(start);const midpoint=start.clone().add(end).multiplyScalar(.5);midpoint.y+=.12+Math.min(.25,dir.length()*.035);const curve=new THREE.QuadraticBezierCurve3(start,midpoint,end);const points=curve.getPoints(20);const arrowEnd=curve.getPoint(.91);const tangent=curve.getTangent(.91);const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),new THREE.LineBasicMaterial({color:edge.type==="feedback"?0xf6b66b:edge.type==="dependency"?0x7c9dff:edge.type==="data"?0x56e0c2:edge.type==="foundation"?0x65e7ff:edge.type==="control"?0x9c8cff:edge.type==="observation"?0x9fb5c4:edge.type==="interaction"?0xffb86b:edge.type==="external"?0xffd66b:0x3298b7,transparent:true,opacity:.5}));line.userData.edge=edge;root.add(line);lineObjects.push({line,edge});const arrow=new THREE.Mesh(new THREE.ConeGeometry(.055,.16,8),new THREE.MeshBasicMaterial({color:edge.type==="feedback"?0xf6b66b:edge.type==="interaction"?0xffb86b:edge.type==="external"?0xffd66b:0x67dff3}));arrow.position.copy(arrowEnd);arrow.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),tangent.normalize());root.add(arrow);lineObjects.push({line:arrow,edge});};
     EDGES.forEach(addLine);
     // The inspector is a genuine camera-facing 3D plane with a canvas texture, not a DOM overlay.
     const panelCanvas=document.createElement("canvas");panelCanvas.width=4096;panelCanvas.height=3072;const panelCtx=panelCanvas.getContext("2d");
