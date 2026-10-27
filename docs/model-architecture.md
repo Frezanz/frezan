@@ -9,6 +9,33 @@ This is the reference source for the Model Architecture screen in the Frezanz we
 
 The architecture has seven functionally distinct but integrated layers. A shared execution runtime coordinates their operation. Layers may interact in different orders; the numbered order is an organizational guide, not a mandatory pipeline.
 
+## Interactive map views
+
+The architecture explorer exposes four distinct views:
+
+- **Whole-system mind map:** all seven principal layers, the shared execution runtime, and external I/O in one connected overview. Cross-layer arrows are labelled with their intended meaning.
+- **Layer maps:** select any principal layer to inspect its internal functional nodes, typed relationships, inputs, outputs, and incoming/outgoing connections.
+- **3D network:** the spatial node view for inspecting the existing architecture components and their cross-component relationships.
+- **Node list:** a searchable index of the components represented in the 3D network.
+
+### Layer-level node maps
+
+**Layer 1 — Universal Computational Environment:** primitive types; representations; constructors; transformations; geometry and simulation space.
+
+**Layer 2 — Formulae Layer:** formula registry; formula contracts; activation and routing; composition graph; results and error handling.
+
+**Layer 3 — Intelligence Layer:** goal interpretation; context retrieval; inference and hypotheses; planning and counterfactuals; evaluation and revision.
+
+**Layer 4 — Knowledge Layer:** acquisition and observations; entities and relations; provenance and confidence; retrieval and context; revision and conflict handling.
+
+**Layer 5 — Creativity & Emotion Layer:** curiosity and novelty; analogy and recombination; exploration policy; motivation-inspired functional signals; candidate refinement.
+
+**Layer 6 — Concentration & Self-Maintenance:** trace collection; anomaly and failure detection; diagnosis and proposals; tests and benchmarks; versioning and rollback.
+
+**Layer 7 — Output & Interaction:** state and structure visualization; response generation; interaction input; action dispatch; feedback capture.
+
+Each layer map shows its internal relationship edges and a node inspector with purpose, inputs, outputs, and related nodes. The relationships are explicit design proposals, not claims of a completed implementation.
+
 ## Layer 1 — Universal Computational Environment {#layer-1}
 
 The foundational computational space in which representations and structures can exist, be created, composed, transformed, executed and observed. It supports standardized primitives—characters, numbers, units, values, symbols, types, shapes, objects, relations, time and multimodal data—while remaining open to new representations. It supports transformations, geometry, graphs, dynamic interfaces, animation, simulations and domain-specific representations. It is not a closed inventory of predefined symbols.

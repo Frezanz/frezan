@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 
 const sections = [
-  { id: "modelArchitecture", number: "01", title: "Model Architecture", group: "SYSTEMS", category: "Systems", icon: "◇", summary: "Explore the proposed Formula-Network Intelligence Architecture, its components, and their relationships.", meta: "13 NODES · INTERACTIVE 3D MAP", existing: true },
+  { id: "modelArchitecture", number: "01", title: "Model Architecture", group: "SYSTEMS", category: "Systems", icon: "◇", summary: "Explore the whole-system mind map, seven internal layer maps, typed relationships, and the 3D network.", meta: "07 LAYERS · WHOLE MAP · LAYER MAPS · 3D", existing: true },
   { id: "relationalFramework", number: "02", title: "Relational Framework", group: "SYSTEMS", category: "Systems", icon: "⌘", summary: "Examine how entities, properties, relations, constraints, and transformations describe a system.", meta: "STRUCTURES · RULES · DEPENDENCIES" },
   { id: "cognitiveSystems", number: "03", title: "Cognitive Systems & Memory", group: "SYSTEMS", category: "Systems", icon: "◉", summary: "Explore perception, attention, memory, reasoning, planning, and feedback as computational mechanisms.", meta: "COGNITION · MEMORY · CONTROL" },
   { id: "researchHypotheses", number: "04", title: "Research & Hypotheses", group: "RESEARCH", category: "Research", icon: "⌁", summary: "Organize open questions, hypotheses, evidence, counterarguments, and possible experiments.", meta: "QUESTIONS · EVIDENCE · TESTS" },
