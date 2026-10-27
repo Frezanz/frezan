@@ -302,3 +302,12 @@
 @media(max-width:520px){.architectureMindmap{padding:9px;gap:9px}.mindmapHeader{gap:9px}.mindmapMode{width:100%}.mindmapMode button{flex:1}.layerMapPicker{grid-template-columns:repeat(2,minmax(0,1fr))}.layerMapPicker button{padding:8px}.layerMapSummary>div{grid-template-columns:1fr}.mindmapFoot{font-size:7px}.mindInspectorIO{grid-template-columns:1fr}.mindInspectorRelations>div{grid-template-columns:1fr 1fr}.mindInspectorRelations>div strong,.mindInspectorRelations>div small{grid-column:1/-1}}
 
 .mindNode.isSystemSupport{cursor:default}
+
+
+/* On phones, scale the complete whole-system SVG to the viewport instead of cropping its side layers. */
+@media (max-width: 700px) {
+  .architectureMindmap { overflow-x: hidden; }
+  .mindmapCanvas { min-width: 0; overflow-x: hidden; overflow-y: auto; }
+  .mindmapCanvas svg { width: 100%; min-width: 0; height: auto; min-height: 0; aspect-ratio: 1200 / 660; }
+  .mindEdgeLabel { font-size: 10px; }
+}
