@@ -1,117 +1,187 @@
-import React, { useMemo, useState } from "react";
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap');
 
-const sections = [
-  { id: "modelArchitecture", number: "01", title: "Model Architecture", group: "SYSTEMS", category: "Systems", icon: "◇", summary: "Explore the whole-system mind map, seven internal layer maps, typed relationships, and the 3D network.", meta: "07 LAYERS · WHOLE MAP · LAYER MAPS · 3D", existing: true },
-  { id: "relationalFramework", number: "02", title: "Relational Framework", group: "SYSTEMS", category: "Systems", icon: "⌘", summary: "Examine how entities, properties, relations, constraints, and transformations describe a system.", meta: "STRUCTURES · RULES · DEPENDENCIES" },
-  { id: "cognitiveSystems", number: "03", title: "Cognitive Systems & Memory", group: "SYSTEMS", category: "Systems", icon: "◉", summary: "Explore perception, attention, memory, reasoning, planning, and feedback as computational mechanisms.", meta: "COGNITION · MEMORY · CONTROL" },
-  { id: "researchHypotheses", number: "04", title: "Research & Hypotheses", group: "RESEARCH", category: "Research", icon: "⌁", summary: "Organize open questions, hypotheses, evidence, counterarguments, and possible experiments.", meta: "QUESTIONS · EVIDENCE · TESTS" },
-  { id: "knowledgeArchive", number: "06", title: "Knowledge Archive", group: "RESEARCH", category: "Research", icon: "▤", summary: "A curated index for concepts, notes, references, definitions, and decisions worth preserving.", meta: "CONCEPTS · NOTES · REFERENCES" },
-  { id: "projectsExperiments", number: "05", title: "Projects & Experiments", group: "WORKBENCH", category: "Workbench", icon: "⌘", summary: "Track project intent, implementation evidence, limitations, experiments, and next milestones.", meta: "PROTOTYPES · RESULTS · NEXT STEPS" },
-];
+:root{font-family:Manrope,sans-serif;color:#eafcff;background:#02070b}
+*{box-sizing:border-box}
+html,body,#root{margin:0;min-height:100%;background:#02070b}
+body{overflow-x:hidden}
+button,a{font:inherit;color:inherit}
+button{border:0;background:none;cursor:pointer}
+a{text-decoration:none}
+.app{position:relative;min-height:100vh;overflow:hidden;background:#02070b}
+.hudGrid{position:fixed;inset:0;opacity:.16;background-image:linear-gradient(rgba(55,190,225,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(55,190,225,.12) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(circle at center,#000 0,transparent 72%);pointer-events:none}
+.scan{position:fixed;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(78,224,255,.7),transparent);opacity:.35;animation:scan 7s linear infinite;pointer-events:none}
+.coreGlow{position:fixed;width:45vw;height:45vw;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(26,182,220,.11),transparent 62%);filter:blur(20px);pointer-events:none}
 
-const destinations = {
-  relationalFramework: {
-    section: "SYSTEMS / 02", title: "Relational Framework", eyebrow: "A MODEL FOR CONNECTED STRUCTURE",
-    intro: "A system becomes easier to reason about when its parts and the relationships between them are explicit. This space defines a working vocabulary for describing those structures without assuming that every relationship is already implemented.",
-    status: "Conceptual framework · terminology and rules require validation against the canonical research notes.",
-    blocks: [
-      { label: "01 / BUILDING BLOCKS", title: "Describe the parts before connecting them.", text: "Entities represent things being discussed. Properties describe their attributes or state. Relations express how entities are connected. Constraints restrict which configurations are valid. Transformations describe how a structure or state changes." , bullets: ["Entity — an identifiable element in a model", "Property — a named value or characteristic", "Relation — a typed connection between elements", "Constraint — a condition a valid state must satisfy"] },
-      { label: "02 / RELATION TYPES", title: "A connection should say what it means.", text: "Do not treat every edge as a generic link. A useful relation has a direction where appropriate, a clear meaning, and a reason to exist.", bullets: ["Structural: part-of, contains, instance-of", "Dependency: requires, uses, enables", "Information: supplies, transforms, derives-from", "Control: triggers, constrains, prioritizes", "Temporal or causal claims need stronger evidence than simple association"] },
-      { label: "03 / VALIDATION", title: "Make relationships inspectable.", text: "A model should be testable against examples and counterexamples. Record assumptions, cardinality, direction, scope, and what would make a relation invalid.", bullets: ["Can two elements have this relation more than once?", "Is the relation directional or symmetric?", "Does the connection imply causation or only association?", "What evidence or rule justifies the edge?"] },
-    ], related: ["modelArchitecture", "cognitiveSystems", "researchHypotheses"]
-  },
-  cognitiveSystems: {
-    section: "SYSTEMS / 03", title: "Cognitive Systems & Memory", eyebrow: "FUNCTIONS, NOT A CLAIM OF BIOLOGICAL REPLICATION",
-    intro: "This page studies cognitive functions as engineering problems: how a system receives information, selects what matters, retrieves context, forms a response, and uses outcomes to improve later decisions.",
-    status: "Research map · these components are a design vocabulary, not a demonstrated brain-equivalent implementation.",
-    blocks: [
-      { label: "01 / INPUT & ATTENTION", title: "Not every signal deserves equal processing.", text: "Perception converts incoming signals into usable representations. Attention allocates limited processing to a subset of those representations, guided by goals, relevance, novelty, uncertainty, and urgency.", bullets: ["Input parsing and normalization", "Relevance scoring and prioritization", "Working context for the current task", "Explicit handling of ambiguity and missing information"] },
-      { label: "02 / MEMORY SYSTEMS", title: "Different information needs different storage and retrieval rules.", text: "A useful computational design distinguishes what happened, what is known, how to do something, and what must be revisited later. These are functional categories; real systems may implement them with overlapping storage structures.", bullets: ["Episodic: events and experiences with context", "Semantic: concepts, facts, and relationships", "Procedural: reusable methods and action patterns", "Prospective: intentions, pending tasks, and future triggers"] },
-      { label: "03 / REASON & ACT", title: "Close the loop between a decision and its outcome.", text: "Reasoning can compare candidate explanations, planning can order actions under constraints, and evaluation can compare actual outcomes against expectations. Feedback should update future behavior only through explicit, reviewable rules.", bullets: ["Retrieve relevant context with provenance", "Generate alternatives and test assumptions", "Plan actions with constraints and checkpoints", "Record outcomes, errors, and revisions"] },
-    ], related: ["modelArchitecture", "relationalFramework", "researchHypotheses"]
-  },
-  researchHypotheses: {
-    section: "RESEARCH / 04", title: "Research & Hypotheses", eyebrow: "SEPARATE WHAT IS KNOWN FROM WHAT IS PROPOSED",
-    intro: "An idea becomes useful research when it can be stated clearly, compared with existing evidence, and challenged by a possible observation. This section is a framework for recording that process, not a list of unverified discoveries.",
-    status: "Research workflow · entries should be added with sources and a concrete next test.",
-    blocks: [
-      { label: "01 / QUESTION", title: "State the uncertainty precisely.", text: "A good research question identifies the phenomenon, the conditions that matter, and what remains unexplained. Avoid questions so broad that no result could meaningfully answer them.", bullets: ["What exactly is unknown?", "Which terms need operational definitions?", "What would count as a useful answer?", "What is already established by credible sources?"] },
-      { label: "02 / HYPOTHESIS", title: "Make a claim that can be challenged.", text: "Record the proposed mechanism, assumptions, expected observations, and plausible alternatives. Confidence should reflect the strength of evidence—not how elegant or exciting an idea feels.", bullets: ["Hypothesis and rationale", "Supporting evidence and source links", "Counterevidence and competing explanations", "Confidence and unresolved assumptions"] },
-      { label: "03 / TEST", title: "Choose the smallest informative experiment.", text: "Prefer tests that could distinguish the hypothesis from its alternatives. Record the method before interpreting the result, then preserve negative results and limitations.", bullets: ["Predicted outcome and baseline", "Procedure, variables, and constraints", "Observed result and reproducibility", "Next step: revise, test again, or set aside"] },
-    ], related: ["cognitiveSystems", "relationalFramework", "knowledgeArchive"]
-  },
-  projectsExperiments: {
-    section: "WORKBENCH / 05", title: "Projects & Experiments", eyebrow: "INTENT IS NOT THE SAME AS IMPLEMENTATION",
-    intro: "A workbench records the distance between an idea and a demonstrated result. Each project should be described through evidence: what exists, what was tested, what failed, and what remains to be done.",
-    status: "Project index structure established · repository links and live implementation states should be verified before individual projects are marked complete.",
-    blocks: [
-      { label: "01 / SYSTEM DESIGNS", title: "From architecture to a testable prototype.", text: "Research architectures such as Formula-Network Intelligence Architecture belong here when there is a concrete implementation task or experiment. The conceptual model itself should remain labelled as proposed until integrated behavior is demonstrated.", bullets: ["Define the smallest end-to-end use case", "Identify components that are actually implemented", "Add tests, sample inputs, and expected outputs", "Record failure modes and missing infrastructure"] },
-      { label: "02 / SOFTWARE BUILDS", title: "Make the result reproducible.", text: "For each software project, capture its repository, purpose, setup instructions, current verified behavior, and known limitations. A repository link alone is not evidence that every intended feature works.", bullets: ["Repository and demo, if available", "Build and test instructions", "Verified features versus planned features", "Issues, dependencies, and next milestone"] },
-      { label: "03 / EXPERIMENT LOG", title: "Preserve what the attempt taught you.", text: "An experiment record should remain useful even when the result is negative. Keep the hypothesis, method, observed output, interpretation, and follow-up together so conclusions can be revisited.", bullets: ["Question and date", "Method and environment", "Results and evidence", "Conclusion, caveats, and next action"] },
-    ], related: ["modelArchitecture", "researchHypotheses", "knowledgeArchive"]
-  },
-  knowledgeArchive: {
-    section: "RESEARCH / 06", title: "Knowledge Archive", eyebrow: "A CURATED, SEARCHABLE MEMORY FOR IDEAS",
-    intro: "The archive is intended to preserve useful knowledge with enough context to retrieve and evaluate it later. It should favor traceable, connected notes over a pile of unstructured snippets.",
-    status: "Archive structure proposed · only deliberately selected public material should be published here.",
-    blocks: [
-      { label: "01 / ENTRY TYPES", title: "Give each note a clear role.", text: "Different records answer different questions. Marking the type of an entry helps readers understand how it should be used and how much confidence to place in it.", bullets: ["Concept: a definition or explanatory model", "Source note: a summary tied to a citation", "Decision: a choice and its rationale", "Experiment: a method, result, and interpretation"] },
-      { label: "02 / RETRIEVAL", title: "Preserve the path back to the source.", text: "A note should carry tags, related entries, source links, date or version context when relevant, and a short statement of why it matters. Search and links should make it possible to recover the reasoning—not just the conclusion.", bullets: ["Topic tags and concise titles", "Source and provenance", "Related concepts and projects", "Status: verified, provisional, disputed, or open"] },
-      { label: "03 / PUBLICATION BOUNDARY", title: "Curate before publishing.", text: "The public archive is not a mirror of private working memory. Review each entry for private information, credentials, internal logs, sensitive personal context, and third-party material before it is published.", bullets: ["Publish only intentionally selected entries", "Remove secrets and private identifiers", "Respect source attribution and licensing", "Review stale claims and broken references"] },
-    ], related: ["researchHypotheses", "cognitiveSystems", "projectsExperiments"]
-  },
-};
+.hudHeader{position:fixed;z-index:20;left:0;right:0;top:0;height:82px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(92,220,246,.16);background:rgba(2,8,12,.36);backdrop-filter:blur(10px)}
+.brand{display:flex;align-items:center;gap:11px;font-size:13px;font-weight:800;letter-spacing:.24em}
+.brandCore{width:28px;height:28px;border:1px solid rgba(91,227,255,.75);border-radius:50%;display:grid;place-items:center;color:#78eaff;box-shadow:0 0 18px rgba(40,205,240,.18)}
+.headerTools{display:flex;gap:24px;align-items:center}
+.hudButton{display:flex;align-items:center;gap:9px;font:10px "DM Mono",monospace;letter-spacing:.15em;color:#9ac4ce;transition:.25s}
+.hudButton:hover,.hudButton.active{color:#fff;text-shadow:0 0 12px #42ddff}
+.gear{font-size:14px;color:#62dfff}
+.menuTrigger{position:relative}
+.menuTrigger i{display:block;width:20px;height:1px;background:#67dff9;transition:.25s}
+.menuTrigger i:nth-of-type(2){width:13px}
+.menuTrigger i:nth-of-type(3){width:7px}
+.menuTrigger.active i:first-of-type{transform:translateY(5px) rotate(45deg)}
+.menuTrigger.active i:nth-of-type(2){opacity:0}
+.menuTrigger.active i:last-of-type{transform:translateY(-5px) rotate(-45deg);width:20px}
 
-const groups = [
-  { name: "SYSTEMS", note: "How ideas are structured, connected, and processed.", ids: ["modelArchitecture", "relationalFramework", "cognitiveSystems"] },
-  { name: "RESEARCH", note: "What is being questioned, documented, and preserved.", ids: ["researchHypotheses", "knowledgeArchive"] },
-  { name: "WORKBENCH", note: "Projects, prototypes, experiments, and observable outcomes.", ids: ["projectsExperiments"] },
-];
+.hero{min-height:100vh;position:relative;display:grid;place-items:center}
+.crosshair{position:absolute;width:min(58vw,760px);height:min(58vw,760px);border:1px solid rgba(66,211,240,.13);border-radius:50%;animation:float 10s ease-in-out infinite}
+.lineH,.lineV{position:absolute;background:rgba(73,216,242,.2)}
+.lineH{height:1px;left:-12%;right:-12%;top:50%}
+.lineV{width:1px;top:-12%;bottom:-12%;left:50%}
+.ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(85,221,247,.2);border-radius:50%}
+.ringA{width:43%;height:43%;border-style:dashed;animation:spin 18s linear infinite}
+.ringB{width:76%;height:76%;border-color:rgba(85,221,247,.09);animation:spin 28s linear infinite reverse}
+.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:58px;height:58px;border:1px solid #62e5ff;border-radius:50%;display:grid;place-items:center;color:#8eeeff;font-weight:800;box-shadow:0 0 35px rgba(36,211,246,.28),inset 0 0 20px rgba(36,211,246,.1)}
+.homeSignal{position:absolute;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;pointer-events:none}
+.homeSignal .micro,.homeSignal .sub{font:10px "DM Mono",monospace;letter-spacing:.28em;color:#648d98}
+.homeSignal .sub{color:#3f7783}
+.telemetry{position:absolute;top:50%;font:9px "DM Mono",monospace;color:#477985;display:flex;flex-direction:column;gap:8px}
+.telemetry b{font-weight:500;color:#86e9ff}
+.telemetry i{width:48px;height:1px;background:#2b91a7}
+.telemetryLeft{left:5vw}.telemetryRight{right:5vw;text-align:right;align-items:flex-end}
 
-export function MoreIndex({ onOpen }) {
-  const [filter, setFilter] = useState("All");
-  const visible = useMemo(() => new Set(sections.filter(s => filter === "All" || s.category === filter).map(s => s.id)), [filter]);
-  return <section className="moreExperience">
-    <div className="panelHeader"><span>MORE / EXPLORATION INDEX</span><b>FREZANZ / KNOWLEDGE SPACE</b></div>
-    <header className="moreHero"><div className="moreEyebrow"><i /> SYSTEMS · RESEARCH · WORKBENCH</div><h2>Ideas, models,<br /><span>and experiments.</span></h2><p>A structured map of the systems being explored, the questions behind them, and the work used to investigate them.</p><div className="moreHeroFoot"><span>EXPLORATION INDEX</span><span>06 SPACES / 03 CATEGORIES</span></div></header>
-    <div className="moreFilter" role="group" aria-label="Filter exploration spaces">{["All", "Systems", "Research", "Workbench"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => setFilter(value)}>{value}<span>{value === "All" ? "06" : String(sections.filter(s => s.category === value).length).padStart(2, "0")}</span></button>)}</div>
-    {groups.map(group => {
-      const items = sections.filter(s => group.ids.includes(s.id) && visible.has(s.id));
-      if (!items.length) return null;
-      return <section className="moreGroup" key={group.name}><div className="moreGroupHead"><div><span>{group.name}</span><p>{group.note}</p></div><small>{String(items.length).padStart(2, "0")} / {String(group.ids.length).padStart(2, "0")}</small></div><div className="moreCards">{items.map(item => <button type="button" className="moreCard" key={item.id} onClick={() => onOpen(item.id)}><span className="moreCardTop"><i>{item.number}</i><b>{item.icon}</b><em>↗</em></span><strong>{item.title}</strong><p>{item.summary}</p><span className="moreCardMeta">{item.meta}</span></button>)}</div></section>;
-    })}
-    <footer className="morePrinciple"><span>OPERATING PRINCIPLE</span><p>Concepts, hypotheses, prototypes, and verified results are different states. Every space should make that distinction visible.</p></footer>
-  </section>;
+.interfaceLayer{position:fixed;z-index:50;inset:0;display:grid;place-items:center;background:rgba(0,8,12,.66);backdrop-filter:blur(12px);padding:7vh 4vw;animation:appear .2s ease}
+.interfacePanel{position:relative;width:min(1040px,94vw);max-height:86vh;overflow:auto;border:1px solid rgba(78,218,246,.3);background:rgba(2,13,18,.86);box-shadow:0 0 80px rgba(0,170,220,.08),inset 0 0 50px rgba(34,190,225,.025);padding:30px}
+.panelHeader{display:flex;justify-content:space-between;gap:20px;padding-bottom:18px;border-bottom:1px solid rgba(78,218,246,.16);font:10px "DM Mono",monospace;letter-spacing:.16em;color:#67d8ee}
+.panelHeader b{font-weight:400;color:#47737d}
+
+.systemNav{display:grid;grid-template-columns:1fr 1fr;margin-top:24px;border:1px solid rgba(76,213,240,.12)}
+.systemNav button{min-height:190px;position:relative;padding:28px;text-align:left;background:rgba(7,29,37,.58);border:1px solid rgba(76,213,240,.08);transition:.3s}
+.systemNav button:hover{background:rgba(14,52,63,.72);box-shadow:inset 0 0 35px rgba(37,205,235,.06)}
+.systemNav span{font:10px "DM Mono",monospace;color:#4e8c99}
+.systemNav strong{display:block;margin-top:24px;font-size:clamp(24px,4vw,42px);letter-spacing:-.04em}
+.systemNav em{position:absolute;right:25px;top:22px;font-style:normal;font-size:24px;color:#5cdff7}
+
+.aboutContent{padding-top:24px}
+.aboutLead{max-width:760px}
+.aboutLead span,.researchGrid span{font:9px "DM Mono",monospace;letter-spacing:.18em;color:#4e9aa8}
+.aboutLead h2{font-size:clamp(32px,6vw,62px);margin:9px 0 10px;letter-spacing:-.06em}
+.aboutLead p{font-size:15px;line-height:1.7;color:#9bbdc5;max-width:700px}
+.researchGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;margin-top:28px;background:rgba(76,213,240,.12)}
+.researchGrid section{padding:22px;background:rgba(4,21,27,.9);min-height:170px}
+.researchGrid h3{font-size:17px;margin:14px 0 9px}
+.researchGrid p{margin:0;color:#70949d;font-size:12px;line-height:1.65}
+.sourceLine{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(76,213,240,.12)}
+.sourceLine span{font:9px "DM Mono",monospace;color:#4e9aa8;margin-right:8px}
+.sourceLine a{font:9px "DM Mono",monospace;color:#74dff4}
+.sourceLine a:hover{text-decoration:underline}
+
+.linksList{display:grid;margin-top:24px}
+.linksList a{display:grid;grid-template-columns:48px 1fr 40px;align-items:center;gap:18px;padding:20px 12px;border-bottom:1px solid rgba(76,213,240,.12);transition:.25s}
+.linksList a:hover{background:rgba(55,205,236,.06);padding-left:18px}
+.linkIndex{font:10px "DM Mono",monospace;color:#4d8995}
+.linksList small{display:block;font:9px "DM Mono",monospace;letter-spacing:.14em;color:#4e9aa8;margin-bottom:5px}
+.linksList strong{font-size:17px}
+.linksList em{text-align:right;font-style:normal;color:#5ee3ff;font-size:20px}
+
+.settingsList{margin-top:24px;border-top:1px solid rgba(78,218,246,.12)}
+.settingsList>div{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 6px;border-bottom:1px solid rgba(78,218,246,.1);font:10px "DM Mono",monospace;color:#57838c}
+.settingsList b{font-weight:500;color:#b4edf7}
+.settingToggle{font:10px "DM Mono",monospace;color:#5d7c84;display:flex;align-items:center;gap:8px}
+.settingToggle i{width:28px;height:14px;border:1px solid #42636c;border-radius:20px;position:relative}
+.settingToggle i:after{content:"";position:absolute;top:2px;left:2px;width:8px;height:8px;border-radius:50%;background:#57747b;transition:.2s}
+.settingToggle.on{color:#78e8ff}
+.settingToggle.on i{border-color:#4fd8f4;box-shadow:0 0 10px rgba(50,215,245,.15)}
+.settingToggle.on i:after{left:16px;background:#6ce6ff}
+.volumeRow label{display:flex;align-items:center;gap:14px;min-width:min(330px,48vw)}
+.volumeRow input{width:100%;accent-color:#58dcf5}
+.volumeRow label b{min-width:42px;text-align:right}
+
+.closeInterface{display:block;margin:22px 0 0 auto;font:10px "DM Mono",monospace;letter-spacing:.12em;color:#6da4af}
+.closeInterface:first-letter{font-size:20px;color:#75e5fa}
+
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes float{50%{transform:scale(1.008) rotate(.5deg)}}
+@keyframes scan{0%{transform:translateY(-46vh)}100%{transform:translateY(46vh)}}
+@keyframes appear{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+
+@media(max-width:700px){
+  .hudHeader{height:70px;padding:0 18px}.brand{font-size:11px}.headerTools{gap:15px}.hudButton span:last-of-type{display:none}
+  .crosshair{width:92vw;height:92vw}.telemetry{display:none}.homeSignal .micro{font-size:8px}.homeSignal .sub{font-size:8px}
+  .interfaceLayer{padding:4vh 3vw}.interfacePanel{padding:20px;max-height:92vh}.systemNav{grid-template-columns:1fr}.systemNav button{min-height:135px}
+  .researchGrid{grid-template-columns:1fr}.researchGrid section{min-height:auto}.sourceLine{display:grid}
+  .linksList a{grid-template-columns:32px 1fr 28px}.linksList strong{font-size:14px}
+  .settingsList>div{align-items:flex-start}.volumeRow{flex-direction:column}.volumeRow label{min-width:100%;width:100%}
 }
+@media(prefers-reduced-motion:reduce){.scan,.crosshair,.ringA,.ringB{animation:none}}
 
-export function MoreDestination({ panel, onOpen, onBack }) {
-  const page = destinations[panel];
-  if (!page) return null;
-  const related = page.related.map(id => sections.find(s => s.id === id)).filter(Boolean);
-  return <article className="moreDestination">
-    <div className="panelHeader"><span>MORE / {page.section}</span><b>FREZANZ / KNOWLEDGE SPACE</b></div>
-    <button className="moreBack" type="button" onClick={onBack}>← <span>BACK TO EXPLORATION INDEX</span></button>
-    <header className="destinationHero"><span>{page.eyebrow}</span><h2>{page.title}</h2><p>{page.intro}</p><div className="destinationStatus"><i /> <span>{page.status}</span></div></header>
-    <div className="destinationBlocks">{page.blocks.map((block, index) => <section className="destinationBlock" key={block.label}><div className="destinationBlockNo">{block.label}</div><h3>{block.title}</h3><p>{block.text}</p><ul>{block.bullets.map(item => <li key={item}>{item}</li>)}</ul></section>)}</div>
-    <section className="moreRelated"><div className="moreGroupHead"><div><span>CONTINUE EXPLORING</span><p>Related spaces that extend this topic.</p></div></div><div className="relatedCards">{related.map(item => <button type="button" key={item.id} onClick={() => onOpen(item.id)}><span>{item.number} / {item.group}</span><strong>{item.title}</strong><em>↗</em></button>)}</div></section>
-  </article>;
+/* More navigation + Model Architecture screen */
+.systemNav .moreNavCard{grid-column:1/-1;min-height:105px;background:linear-gradient(100deg,rgba(10,40,49,.85),rgba(5,21,29,.7))}
+.moreIntro{padding:22px 0 8px}.moreIntro>span{font:9px "DM Mono",monospace;letter-spacing:.18em;color:#4e9aa8}.moreIntro h2{font-size:clamp(28px,5vw,44px);letter-spacing:-.05em;margin:10px 0}.moreIntro p{font-size:12px;line-height:1.7;color:#82aab4;max-width:620px}
+.moreNavList{display:grid;margin:20px 0}.moreNavList button{display:grid;grid-template-columns:44px 1fr 26px;gap:14px;align-items:center;text-align:left;padding:20px 14px;border:1px solid rgba(76,213,240,.18);background:rgba(7,29,37,.62)}.moreNavList button:hover{background:rgba(14,52,63,.8);border-color:rgba(76,213,240,.5)}.moreNumber{font:10px "DM Mono",monospace;color:#4e9aa8}.moreNavList strong{display:block;font-size:13px;letter-spacing:.07em}.moreNavList small{display:block;font:10px "DM Mono",monospace;color:#5e909b;margin-top:7px;line-height:1.5}.moreNavList em{font-size:20px;font-style:normal;color:#69e3fa}
+.interfacePanel.architecturePanel{width:min(1500px,96vw);max-height:92vh;padding:22px;overflow:auto}
+.architecturePanel .closeInterface{position:sticky;bottom:0;padding:11px 0 2px;background:linear-gradient(transparent,rgba(2,13,18,.97) 28%);z-index:3}
+@media(max-width:700px){.systemNav .moreNavCard{grid-column:auto;min-height:120px}.interfacePanel.architecturePanel{width:98vw;padding:12px;max-height:95vh}}
+
+
+/* More / Exploration Index */
+.moreExperience,.moreDestination{min-width:0;color:#d9edf1}
+.moreHero{padding:clamp(28px,5vw,56px) 0 22px;max-width:820px}
+.moreEyebrow,.destinationHero>span{display:flex;align-items:center;gap:9px;font:9px "DM Mono",monospace;letter-spacing:.17em;color:#66b9c8}
+.moreEyebrow i,.destinationStatus i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#64e3f5;box-shadow:0 0 12px rgba(100,227,245,.65)}
+.moreHero h2{font-size:clamp(38px,7.4vw,76px);line-height:.98;letter-spacing:-.065em;font-weight:500;margin:22px 0 18px}
+.moreHero h2 span{color:#5b9eac}
+.moreHero>p,.destinationHero>p{max-width:660px;color:#91b3bc;font-size:13px;line-height:1.85;margin:0}
+.moreHeroFoot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid rgba(78,218,246,.15);margin-top:30px;padding-top:13px;font:9px "DM Mono",monospace;letter-spacing:.1em;color:#477984}
+.moreFilter{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 30px}
+.moreFilter button{display:flex;align-items:center;gap:14px;padding:10px 12px;border:1px solid rgba(78,218,246,.15);background:rgba(7,29,37,.42);color:#6e9ba5;font:10px "DM Mono",monospace;transition:background .2s,border-color .2s,color .2s}
+.moreFilter button span{color:#3f7683;font-size:9px}
+.moreFilter button:hover,.moreFilter button.active{color:#c5f8ff;border-color:rgba(78,218,246,.5);background:rgba(19,69,81,.42)}
+.moreFilter button.active span{color:#7ce4f5}
+.moreGroup{margin:0 0 32px}
+.moreGroupHead{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;border-bottom:1px solid rgba(78,218,246,.16);padding:0 0 12px;margin-bottom:12px}
+.moreGroupHead>div>span{font:10px "DM Mono",monospace;letter-spacing:.16em;color:#68d6e8}
+.moreGroupHead p{font-size:11px;line-height:1.6;color:#628b95;margin:7px 0 0}
+.moreGroupHead>small{font:9px "DM Mono",monospace;color:#416d78;white-space:nowrap}
+.moreCards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.moreCard{position:relative;display:flex;flex-direction:column;align-items:stretch;min-width:0;min-height:215px;padding:17px;text-align:left;border:1px solid rgba(76,213,240,.16);background:linear-gradient(140deg,rgba(9,35,44,.74),rgba(3,18,24,.7));transition:transform .22s,border-color .22s,background .22s}
+.moreCard:hover{transform:translateY(-2px);border-color:rgba(88,223,244,.52);background:linear-gradient(140deg,rgba(13,49,60,.85),rgba(4,23,30,.8))}
+.moreCard:focus-visible,.moreFilter button:focus-visible,.relatedCards button:focus-visible,.moreBack:focus-visible{outline:2px solid #68dff4;outline-offset:3px}
+.moreCardTop{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.moreCardTop i{font:10px "DM Mono",monospace;font-style:normal;color:#4f9ca9}
+.moreCardTop b{font-size:19px;font-weight:400;color:#67cddd}
+.moreCardTop em{font-size:18px;font-style:normal;color:#5cabb9;margin-left:auto}
+.moreCard>strong{font-size:17px;line-height:1.3;font-weight:500;letter-spacing:-.025em;color:#d9f1f4}
+.moreCard>p{font-size:11px;line-height:1.75;color:#7fa2ac;margin:9px 0 18px}
+.moreCardMeta{margin-top:auto;padding-top:12px;border-top:1px solid rgba(78,218,246,.1);font:8px "DM Mono",monospace;letter-spacing:.08em;color:#477985;line-height:1.6}
+.morePrinciple{padding:19px 20px;margin:4px 0 18px;border-left:2px solid rgba(83,213,234,.55);background:rgba(7,28,36,.55)}
+.morePrinciple>span{font:9px "DM Mono",monospace;letter-spacing:.15em;color:#5ba8b5}
+.morePrinciple p{font-size:12px;line-height:1.8;color:#91b3bc;margin:9px 0 0;max-width:760px}
+.moreBack{display:inline-flex;align-items:center;gap:10px;padding:14px 0 0;background:none;border:0;color:#67d7e8;font-size:15px}
+.moreBack span{font:9px "DM Mono",monospace;letter-spacing:.11em;color:#6795a0}
+.destinationHero{padding:34px 0 24px;border-bottom:1px solid rgba(78,218,246,.16)}
+.destinationHero h2{font-size:clamp(32px,5vw,54px);letter-spacing:-.055em;line-height:1.04;font-weight:500;margin:13px 0 15px}
+.destinationStatus{display:flex;align-items:flex-start;gap:10px;margin-top:20px;padding:12px 13px;border:1px solid rgba(78,218,246,.13);background:rgba(6,27,35,.48);font-size:10px;line-height:1.7;color:#719ca6}
+.destinationStatus i{flex:none;margin-top:5px}
+.destinationBlocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin:24px 0;background:rgba(78,218,246,.13);border:1px solid rgba(78,218,246,.13)}
+.destinationBlock{min-width:0;padding:20px;background:rgba(3,19,25,.9)}
+.destinationBlock:last-child:nth-child(odd){grid-column:1/-1}
+.destinationBlockNo{font:9px "DM Mono",monospace;letter-spacing:.12em;color:#5ba7b5;line-height:1.6}
+.destinationBlock h3{font-size:19px;line-height:1.3;letter-spacing:-.025em;font-weight:500;margin:16px 0 10px;color:#d6edf1}
+.destinationBlock>p{font-size:11px;line-height:1.8;color:#84a8b2;margin:0 0 15px}
+.destinationBlock ul{list-style:none;padding:0;margin:0}
+.destinationBlock li{position:relative;padding:9px 0 9px 15px;border-top:1px solid rgba(78,218,246,.09);font-size:10px;line-height:1.65;color:#9bbac1}
+.destinationBlock li:before{content:"";position:absolute;left:0;top:16px;width:4px;height:4px;background:#58b7c9}
+.moreRelated{margin:28px 0 12px}
+.relatedCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.relatedCards button{position:relative;min-width:0;text-align:left;padding:14px 14px 18px;border:1px solid rgba(76,213,240,.15);background:rgba(7,29,37,.58);transition:border-color .2s,background .2s}
+.relatedCards button:hover{border-color:rgba(88,223,244,.48);background:rgba(14,52,63,.75)}
+.relatedCards button span{display:block;font:8px "DM Mono",monospace;letter-spacing:.08em;color:#4d8b98;margin-bottom:12px}
+.relatedCards button strong{display:block;font-size:12px;line-height:1.45;font-weight:500;color:#c7e8ed;padding-right:12px}
+.relatedCards button em{position:absolute;right:10px;bottom:8px;font-style:normal;color:#62cadd}
+@media(max-width:700px){
+ .moreHero{padding-top:27px}.moreHero h2{font-size:clamp(36px,11vw,56px)}
+ .moreCards{grid-template-columns:1fr}.moreCard{min-height:0;padding:15px}.moreCardTop{margin-bottom:15px}
+ .destinationBlocks{grid-template-columns:1fr}.destinationBlock:last-child:nth-child(odd){grid-column:auto}
+ .relatedCards{grid-template-columns:1fr}.relatedCards button{padding:13px 14px}
+ .moreGroupHead{align-items:flex-start}.moreHeroFoot{font-size:8px}
 }
+@media(prefers-reduced-motion:reduce){.moreCard,.moreFilter button,.relatedCards button{transition:none}.moreCard:hover{transform:none}}
 
 
-/* Keep the four exploration filters in a balanced two-column grid on phones. */
-@media (max-width: 520px) {
-  .moreFilter {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    align-items: stretch;
-  }
-  .moreFilter button {
-    width: 100%;
-    min-width: 0;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 11px 12px;
-    white-space: nowrap;
-  }
-}
+/* Keep exploration filters in a balanced two-column grid on phones. */
+@media (max-width: 520px) { .moreFilter { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; align-items:stretch; } .moreFilter button { width:100%; min-width:0; justify-content:space-between; gap:8px; padding:11px 12px; white-space:nowrap; } }
