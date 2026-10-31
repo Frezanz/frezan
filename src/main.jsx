@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import ModelArchitecture from "./ModelArchitecture.jsx";
 import { MoreIndex, MoreDestination } from "./MoreExperience.jsx";
+import FrezanzCollection from "./FrezanzCollection.jsx";
 import "./styles.css";
 
 const links = [
@@ -110,6 +111,7 @@ function App() {
             )}
 
             {panel === "more" && <MoreIndex onOpen={openPanel} />}
+            {panel === "frezanzCollection" && <FrezanzCollection onBack={() => openPanel("more")} />}
             {panel === "modelArchitecture" && <ModelArchitecture />}
             {["relationalFramework", "cognitiveSystems", "researchHypotheses", "projectsExperiments", "knowledgeArchive"].includes(panel) && <MoreDestination panel={panel} onOpen={openPanel} onBack={() => openPanel("more")} />}
 

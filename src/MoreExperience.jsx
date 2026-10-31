@@ -7,6 +7,7 @@ const sections = [
   { id: "researchHypotheses", number: "04", title: "Research & Hypotheses", group: "RESEARCH", category: "Research", icon: "⌁", summary: "Organize open questions, hypotheses, evidence, counterarguments, and possible experiments.", meta: "QUESTIONS · EVIDENCE · TESTS" },
   { id: "knowledgeArchive", number: "06", title: "Knowledge Archive", group: "RESEARCH", category: "Research", icon: "▤", summary: "A curated index for concepts, notes, references, definitions, and decisions worth preserving.", meta: "CONCEPTS · NOTES · REFERENCES" },
   { id: "projectsExperiments", number: "05", title: "Projects & Experiments", group: "WORKBENCH", category: "Workbench", icon: "⌘", summary: "Track project intent, implementation evidence, limitations, experiments, and next milestones.", meta: "PROTOTYPES · RESULTS · NEXT STEPS" },
+  { id: "frezanzCollection", number: "07", title: "FREZANZ", group: "IDENTITY", category: "Identity", icon: "F", summary: "A growing collection of distinct ideas and things connected through the name.", meta: "ASSOCIATIONS · INTERPRETATIONS · 1,000 TARGET" },
 ];
 
 const destinations = {
@@ -66,6 +67,7 @@ const groups = [
   { name: "SYSTEMS", note: "How ideas are structured, connected, and processed.", ids: ["modelArchitecture", "relationalFramework", "cognitiveSystems"] },
   { name: "RESEARCH", note: "What is being questioned, documented, and preserved.", ids: ["researchHypotheses", "knowledgeArchive"] },
   { name: "WORKBENCH", note: "Projects, prototypes, experiments, and observable outcomes.", ids: ["projectsExperiments"] },
+  { name: "IDENTITY", note: "Different things connected through a shared name.", ids: ["frezanzCollection"] },
 ];
 
 export function MoreIndex({ onOpen }) {
@@ -73,8 +75,8 @@ export function MoreIndex({ onOpen }) {
   const visible = useMemo(() => new Set(sections.filter(s => filter === "All" || s.category === filter).map(s => s.id)), [filter]);
   return <section className="moreExperience">
     <div className="panelHeader"><span>MORE / EXPLORATION INDEX</span><b>FREZANZ / KNOWLEDGE SPACE</b></div>
-    <header className="moreHero"><div className="moreEyebrow"><i /> SYSTEMS · RESEARCH · WORKBENCH</div><h2>Ideas, models,<br /><span>and experiments.</span></h2><p>A structured map of the systems being explored, the questions behind them, and the work used to investigate them.</p><div className="moreHeroFoot"><span>EXPLORATION INDEX</span><span>06 SPACES / 03 CATEGORIES</span></div></header>
-    <div className="moreFilter" role="group" aria-label="Filter exploration spaces">{["All", "Systems", "Research", "Workbench"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => setFilter(value)}>{value}<span>{value === "All" ? "06" : String(sections.filter(s => s.category === value).length).padStart(2, "0")}</span></button>)}</div>
+    <header className="moreHero"><div className="moreEyebrow"><i /> SYSTEMS · RESEARCH · WORKBENCH</div><h2>Ideas, models,<br /><span>and experiments.</span></h2><p>A structured map of the systems being explored, the questions behind them, and the work used to investigate them.</p><div className="moreHeroFoot"><span>EXPLORATION INDEX</span><span>07 SPACES / 04 CATEGORIES</span></div></header>
+    <div className="moreFilter" role="group" aria-label="Filter exploration spaces">{["All", "Systems", "Research", "Workbench", "Identity"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => setFilter(value)}>{value}<span>{value === "All" ? "06" : String(sections.filter(s => s.category === value).length).padStart(2, "0")}</span></button>)}</div>
     {groups.map(group => {
       const items = sections.filter(s => group.ids.includes(s.id) && visible.has(s.id));
       if (!items.length) return null;
