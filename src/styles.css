@@ -218,3 +218,17 @@ a{text-decoration:none}
 .frezanzEmpty{padding:24px;text-align:center;border:1px dashed rgba(76,213,240,.2);color:#7097a1;font:10px "DM Mono",monospace;line-height:1.8}
 .frezanzCollectionNote{margin-top:18px;padding:15px 17px;border-left:2px solid rgba(83,213,234,.55);background:rgba(7,28,36,.4);font-size:11px;line-height:1.8;color:#86aab4}
 @media(max-width:600px){.frezanzCollectionStats{grid-template-columns:1fr 1fr}.frezanzCollectionStats>div:last-child{grid-column:1/-1}.frezanzCollectionTools{flex-wrap:wrap}.frezanzCollectionTools input{flex-basis:100%}}
+
+/* More opens as a compact directory, using the same rhythm as Links. */
+.moreQuickIndex{min-width:0}
+.moreQuickList{display:grid;margin:10px 0 0}
+.moreQuickList button{display:grid;grid-template-columns:42px minmax(0,1fr) 28px;align-items:center;gap:16px;width:100%;min-height:64px;padding:12px 10px;text-align:left;border:0;border-bottom:1px solid rgba(76,213,240,.14);background:transparent;transition:background .2s,padding .2s}
+.moreQuickList button:hover,.moreQuickList button:focus-visible{background:rgba(55,205,236,.055);padding-left:16px;outline:none}
+.moreQuickNumber{font:10px "DM Mono",monospace;color:#4d8995;font-variant-numeric:tabular-nums}
+.moreQuickList strong{font-size:15px;font-weight:500;letter-spacing:-.015em;color:#cfe9ee}
+.moreQuickList em{font-style:normal;text-align:right;font-size:18px;color:#5ee3ff}
+@media(max-width:700px){
+ .moreQuickList{margin-top:6px}
+ .moreQuickList button{grid-template-columns:32px minmax(0,1fr) 24px;gap:12px;min-height:58px;padding:10px 6px}
+ .moreQuickList strong{font-size:14px}
+}

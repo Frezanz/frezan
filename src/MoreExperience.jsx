@@ -71,18 +71,15 @@ const groups = [
 ];
 
 export function MoreIndex({ onOpen }) {
-  const [filter, setFilter] = useState("All");
-  const visible = useMemo(() => new Set(sections.filter(s => filter === "All" || s.category === filter).map(s => s.id)), [filter]);
-  return <section className="moreExperience">
-    <div className="panelHeader"><span>MORE / EXPLORATION INDEX</span><b>FREZANZ / KNOWLEDGE SPACE</b></div>
-    <header className="moreHero"><div className="moreEyebrow"><i /> SYSTEMS · RESEARCH · WORKBENCH</div><h2>Ideas, models,<br /><span>and experiments.</span></h2><p>A structured map of the systems being explored, the questions behind them, and the work used to investigate them.</p><div className="moreHeroFoot"><span>EXPLORATION INDEX</span><span>07 SPACES / 04 CATEGORIES</span></div></header>
-    <div className="moreFilter" role="group" aria-label="Filter exploration spaces">{["All", "Systems", "Research", "Workbench", "Identity"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => setFilter(value)}>{value}<span>{value === "All" ? "06" : String(sections.filter(s => s.category === value).length).padStart(2, "0")}</span></button>)}</div>
-    {groups.map(group => {
-      const items = sections.filter(s => group.ids.includes(s.id) && visible.has(s.id));
-      if (!items.length) return null;
-      return <section className="moreGroup" key={group.name}><div className="moreGroupHead"><div><span>{group.name}</span><p>{group.note}</p></div><small>{String(items.length).padStart(2, "0")} / {String(group.ids.length).padStart(2, "0")}</small></div><div className="moreCards">{items.map(item => <button type="button" className="moreCard" key={item.id} onClick={() => onOpen(item.id)}><span className="moreCardTop"><i>{item.number}</i><b>{item.icon}</b><em>↗</em></span><strong>{item.title}</strong><p>{item.summary}</p><span className="moreCardMeta">{item.meta}</span></button>)}</div></section>;
-    })}
-    <footer className="morePrinciple"><span>OPERATING PRINCIPLE</span><p>Concepts, hypotheses, prototypes, and verified results are different states. Every space should make that distinction visible.</p></footer>
+  return <section className="moreQuickIndex">
+    <div className="panelHeader"><span>MORE</span><b>FREZANZ</b></div>
+    <nav className="moreQuickList" aria-label="More sections">
+      {sections.map(item => <button type="button" key={item.id} onClick={() => onOpen(item.id)}>
+        <span className="moreQuickNumber">{item.number}</span>
+        <strong>{item.title}</strong>
+        <em>↗</em>
+      </button>)}
+    </nav>
   </section>;
 }
 
