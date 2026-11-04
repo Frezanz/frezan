@@ -85,11 +85,13 @@ function App() {
   const close = goBack;
   const handleTouchStart = (event) => {
     const target = event.target;
-    if (target.closest("button, a, input, textarea, select, [data-no-nav-swipe], .archWorkspace, .mindmapCanvas, .layerMindmapCanvas, .archToolbar")) {
+    const touch = event.touches[0];
+    const edgeSwipe = touch.clientX < 28 || touch.clientX > window.innerWidth - 28;
+    const inSpatialCanvas = target.closest(".archWorkspace, .mindmapCanvas, .layerMindmapCanvas");
+    if (target.closest("button, a, input, textarea, select, [data-no-nav-swipe], .archToolbar") || (inSpatialCanvas && !edgeSwipe)) {
       touchStart.current = null;
       return;
     }
-    const touch = event.touches[0];
     touchStart.current = { x: touch.clientX, y: touch.clientY, time: Date.now() };
   };
   const handleTouchEnd = (event) => {
