@@ -232,3 +232,15 @@ a{text-decoration:none}
  .moreQuickList button{grid-template-columns:32px minmax(0,1fr) 24px;gap:12px;min-height:58px;padding:10px 6px}
  .moreQuickList strong{font-size:14px}
 }
+
+/* Spatial-feel navigation: depth transitions between screens, without changing page content. */
+.interfaceLayer{perspective:1100px;transform-style:preserve-3d}
+.interfacePanel{transform-origin:50% 50%;animation:spatialScreenIn .38s cubic-bezier(.2,.78,.2,1) both}
+.architectureScreen{animation:spatialScreenIn .38s cubic-bezier(.2,.78,.2,1) both}
+@keyframes spatialScreenIn{
+  from{opacity:0;transform:translate3d(0,0,-90px) scale(.94) rotateX(3deg);filter:blur(5px)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1) rotateX(0);filter:blur(0)}
+}
+@media(prefers-reduced-motion:reduce){
+  .interfacePanel,.architectureScreen{animation:none}
+}
