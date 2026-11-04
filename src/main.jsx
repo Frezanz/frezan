@@ -15,6 +15,8 @@ const links = [
 
 function App() {
   const [panel, setPanel] = useState(null);
+  const [navigationStack, setNavigationStack] = useState([]);
+  const touchStart = useRef(null);
   const [sound, setSound] = useState(() => localStorage.getItem("frezanz-ui-sound") !== "off");
   const [volume, setVolume] = useState(() => Number(localStorage.getItem("frezanz-ui-volume") ?? 0.22));
   const audioRef = useRef(null);
@@ -67,15 +69,47 @@ function App() {
     } catch {}
   };
 
-  const openPanel = (next) => { uiSound("open"); setPanel(next); };
-  const close = () => { uiSound("close"); setPanel(null); };
+  const openPanel = (next) => {
+    if (next === panel) return;
+    uiSound("open");
+    setNavigationStack(stack => [...stack, panel]);
+    setPanel(next);
+  };
+  const goBack = () => {
+    setNavigationStack(stack => {
+      if (!stack.length) { setPanel(null); return []; }
+      setPanel(stack[stack.length - 1]);
+      return stack.slice(0, -1);
+    });
+    uiSound("close");
+  };
+  const goHome = () => { setNavigationStack([]); setPanel(null); uiSound("close"); };
+  const close = goBack;
+  const handleTouchStart = (event) => {
+    const target = event.target;
+    if (target.closest("button, a, input, textarea, select, [data-no-nav-swipe], .archWorkspace, .mindmapCanvas, .layerMindmapCanvas, .archToolbar")) {
+      touchStart.current = null;
+      return;
+    }
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY, time: Date.now() };
+  };
+  const handleTouchEnd = (event) => {
+    if (!touchStart.current) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - touchStart.current.x;
+    const dy = touch.clientY - touchStart.current.y;
+    const elapsed = Date.now() - touchStart.current.time;
+    touchStart.current = null;
+    if (Math.abs(dx) > 72 && Math.abs(dx) > Math.abs(dy) * 1.35 && elapsed < 700 && (panel || navigationStack.length)) goBack();
+  };
 
   return (
-    <main className="app">
+    <main className="app" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       <div className="hudGrid" /><div className="scan" /><div className="coreGlow" />
 
       <header className="hudHeader">
-        <button className="brand" onClick={close} aria-label="Frezanz home">
+        <button className="brand" onClick={goHome} aria-label="Frezanz home">
           <span className="brandCore">F</span><span>FREZANZ</span>
         </button>
         <div className="headerTools">
@@ -92,7 +126,7 @@ function App() {
         <div className="telemetry telemetryRight"><span>SPACE / 04D</span><b>000.001</b><i /></div>
       </section>
 
-      {panel === "modelArchitecture" && <div className="architectureScreen"><button className="architectureExit" aria-label="Back to previous view" title="Back to previous view" onClick={() => { uiSound("close"); setPanel("more"); }}>←</button><ModelArchitecture /></div>}
+      {panel === "modelArchitecture" && <div className="architectureScreen"><button className="architectureExit" aria-label="Back to previous view" title="Back to previous view" onClick={goBack}>←</button><ModelArchitecture /></div>}
 
       {panel && panel !== "modelArchitecture" && (
         <div className="interfaceLayer" onClick={close}>
