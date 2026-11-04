@@ -76,11 +76,9 @@ function App() {
     setPanel(next);
   };
   const goBack = () => {
-    setNavigationStack(stack => {
-      if (!stack.length) { setPanel(null); return []; }
-      setPanel(stack[stack.length - 1]);
-      return stack.slice(0, -1);
-    });
+    const previous = navigationStack.length ? navigationStack[navigationStack.length - 1] : null;
+    setNavigationStack(stack => stack.slice(0, -1));
+    setPanel(previous);
     uiSound("close");
   };
   const goHome = () => { setNavigationStack([]); setPanel(null); uiSound("close"); };
@@ -130,7 +128,7 @@ function App() {
 
       {panel && panel !== "modelArchitecture" && (
         <div className="interfaceLayer" onClick={close}>
-          <div className={`interfacePanel ${panel === "modelArchitecture" ? "architecturePanel" : ""}`} onClick={e => e.stopPropagation()}>
+          <div key={panel} className={`interfacePanel ${panel === "modelArchitecture" ? "architecturePanel" : ""}`} onClick={e => e.stopPropagation()}>
             {panel === "menu" && (
               <>
                 <div className="panelHeader"><span>NAVIGATION</span><b>FREZANZ / SYSTEM</b></div>
